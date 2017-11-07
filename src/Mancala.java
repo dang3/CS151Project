@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 public class Mancala extends JPanel{
 	int height;
 	int width;
+	int i = 0;
 
 	public Mancala(int w, int h) {
 		height = h;
