@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
 
 public class Frame extends JFrame {
@@ -23,3 +22,6 @@ public class Frame extends JFrame {
 		setVisible(true);
 	}
 }
+
+
+
