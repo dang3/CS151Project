@@ -1,13 +1,10 @@
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-public class Mancala{
-	ArrayList<Ellipse2D.Double> pockets;
+public class Mancala {
+	public ArrayList<Ellipse2D.Double> pockets;
 	JPanel label = new JPanel();
 	int startX = 150;
 	int startY = 100;
@@ -45,8 +42,11 @@ public class Mancala{
 		g2.draw(outline);
 		g2.draw(pocket1);
 		g2.draw(pocket2);
-		
 	}
+	
+	
+	
+	
 }
 	
 	
