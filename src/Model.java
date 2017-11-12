@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class Model {
@@ -61,5 +62,18 @@ public class Model {
 	//attaches to view listener which calls calls getmethods when stateChanged
 	public void attach(ChangeListener listener) {
 		listeners.add(listener);
+	}
+	
+	/**
+	 *  this method is called by the controller to update the arrays
+	 * @param index Index of the pit that was clicked
+	 */
+	public void updateModel(int index) {
+		// update the arrays here
+		
+		// let the views know about the change so that they update
+		for(ChangeListener listener : listeners) {
+			listener.stateChanged( new ChangeEvent(this) );
+		}
 	}
 }

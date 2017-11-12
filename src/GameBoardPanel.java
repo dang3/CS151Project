@@ -4,11 +4,15 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class GameBoardPanel extends JPanel {
+public class GameBoardPanel extends JPanel implements ChangeListener {
 	private Mancala gameBoard;
+	private Model model;
 	
-	public GameBoardPanel() {
+	public GameBoardPanel(Model model) {
+		this.model = model;
 		gameBoard = new Mancala();
 		repaint();
 		addMouseListener(new Listener());
@@ -33,10 +37,19 @@ public class GameBoardPanel extends JPanel {
 				}
 			}
 			
+			// tells you index of the pocket that was clicked
 			if(pocket != null) {
-				// tells you index of the pocket that was clicked
+				// model.updateModel(gameBoard.pockets.indexOf(pocket));
 				System.out.println(gameBoard.pockets.indexOf(pocket));
 			}
 		}
+	}
+
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// Mancala gameBoard reads from the Model how many seeds per pocket,
+		// then the View redraws
+		
 	}
 }
