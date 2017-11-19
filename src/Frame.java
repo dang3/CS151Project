@@ -2,36 +2,50 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 public class Frame extends JFrame {
-	private final int WIDTH = 1000;
-	private final int HEIGHT = 800;
-	private PlayerPanel playerPanel1;
-	private PlayerPanel playerPanel2;
+	private final int WIDTH = 800;
+	private final int HEIGHT = 500;
+	private PlayerBox player1;
+	private PlayerBox player2;
 	private Model model;
-	private GameBoardPanel panel;
+	private MancalaPanel mancalaPanel;
+	private StartMenu startMenu;
 	
 	public Frame() {
 		initComponents();
 		initFrame();
+		startMenu = new StartMenu(model);
 	}
 	
 	private void initFrame() {
-		setLayout(new BorderLayout());
+		setLayout(null);
 		setSize(WIDTH, HEIGHT);
 		setLocationRelativeTo(null);
 		setTitle("Team Mango - Mancala");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-		add(panel, BorderLayout.CENTER);	// add the game board panel
-		add(playerPanel1, BorderLayout.WEST);
-		add(playerPanel2, BorderLayout.EAST);
+		
+		
+		
+		mancalaPanel.setBounds(WIDTH/2 - mancalaPanel.getWidth()/2 , HEIGHT/8, mancalaPanel.getWidth()+1, mancalaPanel.getHeight()+1);
+		add(mancalaPanel);	// add the game board panel
+		
+		player1.setBounds((WIDTH - mancalaPanel.getWidth())/2 + 100, 300, player1.getWidth()+1, player1.getHeight()+1);
+		add(player1);
+		
+		player2.setBounds( player1.getX() + 280, 300, player2.getWidth()+1, player2.getHeight()+1 );
+		add(player2);
 		setVisible(true);
+		
+
+		
+		
 	}
 	
 	private void initComponents() {
-		playerPanel1 = new PlayerPanel("Player 1");
-		playerPanel2 = new PlayerPanel("Player 2");
+		player1 = new PlayerBox("Player 1");
+		player2 = new PlayerBox("Player 2");
 		model = new Model();
-		panel = new GameBoardPanel(model);
+		mancalaPanel = new MancalaPanel(model);
 	}
 	
 	

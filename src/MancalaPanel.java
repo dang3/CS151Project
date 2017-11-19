@@ -1,28 +1,72 @@
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class GameBoardPanel extends JPanel implements ChangeListener {
-	private Mancala gameBoard;
+public class MancalaPanel extends JPanel implements ChangeListener {
+	ArrayList<Ellipse2D.Double> pockets;
+	ArrayList<Pocket> pocket_int;
+	int startX = 0; //150
+	int startY = 0;	//100
+	
+	
+	private LineBorder border;
+	//Rectangle2D.Double mancala1 = new Rectangle2D.Double(startX + 20, startY + 20, 60, 140);
+	//Rectangle2D.Double mancala2 = new Rectangle2D.Double(startX + 520, startY + 20, 60, 140);
+	Ellipse2D.Double mancala1 = new Ellipse2D.Double(startX + 20, startY + 20, 60, 140);
+	Ellipse2D.Double mancala2 = new Ellipse2D.Double(startX + 520, startY + 20, 60, 140);
+	//create pocket class
+	//change mancala class
 	private Model model;
 	boolean isPlayerA;
 	
-	public GameBoardPanel(Model model) {
+	public MancalaPanel(Model model) {
 		this.model = model;
-		gameBoard = new Mancala();
 		repaint();
 		addMouseListener(new Listener());
 		isPlayerA=true;
+		pockets = new ArrayList<>();
+		pocket_int = new ArrayList<>();
+		setSize(600,180);
+		border = new LineBorder(Color.BLACK, 3);
+		setBorder(border);
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		gameBoard.draw(g);
+		Graphics2D g2 = (Graphics2D) g;
+		int dx = startX+30;
+		int dy = startY+105;
+		for (int i = 0; i < 12; i++) {
+			//Pocket p = new Pocket(i);
+			//pocket_int.add(p);
+			dx += 70;
+			if (i == 6) {
+				dx -= 70;
+				dy -= 75;
+				pockets.add(mancala1);
+			}
+			if (i > 6) {
+				dx -= 140;
+				dy -= 75;
+			}
+			Ellipse2D.Double pocket = new Ellipse2D.Double(dx, dy, 50, 50);
+			pockets.add(pocket);
+			dy = startY + 105;
+		}
+		pockets.add(mancala2);
+		for (int i = 0; i < pockets.size(); i++){
+			g2.draw(pockets.get(i));
+		}
 	}
 	
 	
@@ -32,7 +76,10 @@ public class GameBoardPanel extends JPanel implements ChangeListener {
 			Point mousePoint = event.getPoint();
 			Ellipse2D.Double pocket = null;
 			
-			for(Ellipse2D.Double temp : gameBoard.pockets) {
+			System.out.println("Width: " + getWidth());
+			System.out.println("height: " + getHeight());
+			
+			for(Ellipse2D.Double temp : pockets) {
 				if(temp.contains(mousePoint)) {
 					pocket = temp;
 					break;
@@ -42,12 +89,12 @@ public class GameBoardPanel extends JPanel implements ChangeListener {
 			// tells you index of the pocket that was clicked
 			if(pocket != null) {
 				// model.updateModel(gameBoard.pockets.indexOf(pocket));
-				System.out.println(gameBoard.pockets.indexOf(pocket));
+				System.out.println(pockets.indexOf(pocket));
 			}
-			
+
 			
 			//check if correct player's pits
-			int index = gameBoard.pockets.indexOf(pocket);
+			int index = pockets.indexOf(pocket);
 			if (isPlayerA) {
 				if (index>5) {
 					System.out.println("You are Player A, please choose pits on your side. ");

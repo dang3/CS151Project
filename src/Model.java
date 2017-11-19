@@ -10,6 +10,7 @@ public class Model {
 	private int playerBPits[] = new int[6];
 	private int playerAMancala;
 	private int playerBMancala;
+	private int initNumStones;
 	
 	private ArrayList<ChangeListener> listeners;
 	
@@ -42,6 +43,14 @@ public class Model {
 	//public void updatePit(){ }
 	//public void updateMancala() { }
 		
+	public void setInitNumStones(int val) {
+		initNumStones = val;
+	}
+	
+	public int getInitNumStones() {
+		return initNumStones;
+	}
+	
 	
 	public int[] getPlayerAPits() {
 		return playerAPits;
