@@ -3,8 +3,8 @@ import java.awt.geom.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+//import javax.swing.event.ChangeEvent;
+//import javax.swing.event.ChangeListener;
 
 public class Mancala{
 	ArrayList<Ellipse2D.Double> pockets;
@@ -17,8 +17,7 @@ public class Mancala{
 	//Rectangle2D.Double mancala2 = new Rectangle2D.Double(startX + 520, startY + 20, 60, 140);
 	Ellipse2D.Double mancala1 = new Ellipse2D.Double(startX + 20, startY + 20, 60, 140);
 	Ellipse2D.Double mancala2 = new Ellipse2D.Double(startX + 520, startY + 20, 60, 140);
-	//create pocket class
-	//change mancala class
+
 	
 	public Mancala(){
 		pockets = new ArrayList<>();
