@@ -1,7 +1,7 @@
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
-public class Frame extends JFrame {
+public class Displayer extends JFrame {
 	private final int WIDTH = 800;
 	private final int HEIGHT = 500;
 	private PlayerBox player1;
@@ -10,7 +10,7 @@ public class Frame extends JFrame {
 	private MancalaPanel mancalaPanel;
 	private StartMenu startMenu;
 	
-	public Frame() {
+	public Displayer() {
 		initComponents();
 		initFrame();
 		startMenu = new StartMenu(model);
@@ -34,11 +34,7 @@ public class Frame extends JFrame {
 		
 		player2.setBounds( player1.getX() + 280, 300, player2.getWidth()+1, player2.getHeight()+1 );
 		add(player2);
-		setVisible(true);
-		
-
-		
-		
+		setVisible(true);		
 	}
 	
 	private void initComponents() {
@@ -47,8 +43,6 @@ public class Frame extends JFrame {
 		model = new Model();
 		mancalaPanel = new MancalaPanel(model);
 	}
-	
-	
 }
 
 

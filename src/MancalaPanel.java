@@ -63,6 +63,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		for (int i = 0; i < pocketList.size(); i++){
 			pocketList.get(i).draw(g);
 		}
+		
+		
+		
 	}
 	
 	
@@ -70,15 +73,12 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	private class Listener extends MouseAdapter {
 		public void mousePressed(MouseEvent event) {
 			Point mousePoint = event.getPoint();
-			Ellipse2D.Double pocket = null;
-			
-			System.out.println("Width: " + getWidth());
-			System.out.println("height: " + getHeight());
+			Pocket pocket = null;
 			
 			for(Pocket p : pocketList) {
 				Ellipse2D.Double temp = p.getOutline();
-				if(temp.contains(mousePoint)) {
-					pocket = temp;
+				if(temp.contains(mousePoint)) {					
+					pocket = p;
 					break;
 				}
 			}
