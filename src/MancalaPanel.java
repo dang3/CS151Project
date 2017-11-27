@@ -88,20 +88,22 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				// model.updateModel(gameBoard.pockets.indexOf(pocket));
 				System.out.println(pocketList.indexOf(pocket));
 			}
-
+			if (pocket==null) {
+				System.out.println("Please select a pit. ");
+			}
 			
 			//check if correct player's pits
 			int index = pocketList.indexOf(pocket);
 			if (isPlayerA) {
 				if (index>5) {
 					System.out.println("You are Player A, please choose pits on your side. ");
-					//exit the method? want to skip actual update part
+					return;//exit the method? want to skip actual update part
 				}
 			}
 			else{
 				if (index<7 || index>12){
 					System.out.println("You are Player B, please choose pits on your side. ");
-					//exit the method
+					return;//exit the method
 				}
 			}
 			
@@ -162,15 +164,16 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 				nextPitIndex++;
 			}
+			model.toZero(index);//set chosen pit to zero stones
 			
 			//check if all pits on a side are empty 
 			if (model.sideAEmpty())  {
 				model.sideBIntoB();
-				//end?
+				System.exit(0); //end
 			}
 			else if (model.sideBEmpty()) {
 				model.sideAIntoA();
-				//end
+				System.exit(0); //end
 			}		
 			
 			//change player at end
@@ -185,7 +188,10 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		// then the View redraws
 		
 		for (int i = 0; i<14; i++) {
-			model.getStoneNumber(i); //connect to Mancala? for drawing how many stones
+			int stonesNum = model.getStoneNumber(i);
+				Pocket p = pocketList.get(i);
+				p.setNumStones(stonesNum);
 		}
+		repaint();
 	}
 }
