@@ -64,8 +64,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			pocketList.get(i).draw(g);
 		}
 		
-		
-		
 	}
 	
 	
@@ -111,6 +109,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			//for loop until #of stones runs out
 			int nextPitIndex = index + 1;
 			int stoneNumber = model.getStoneNumber(index);
+			if (stoneNumber==0) {
+				System.out.println("Please pick a pit with stones inside. ");
+			}
 			for (; stoneNumber>0; stoneNumber-- ) {//get method for stoneNumber in that pit?
 				
 				if (nextPitIndex==14) { //back to beginning of loop
