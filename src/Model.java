@@ -45,6 +45,10 @@ public class Model {
 		
 	public void setInitNumStones(int val) {
 		initNumStones = val;
+		for (int i = 0; i<6;i++) {
+			playerAPits[i] = initNumStones;
+			playerBPits[i] = initNumStones;
+		}
 	}
 	
 	public int getInitNumStones() {
@@ -79,13 +83,13 @@ public class Model {
 	 */
 	public void updateModel(int index) {
 		// update the arrays here
-		if (index>=0 || index<=5) {
+		if (index>=0 && index<=5) {
 			playerAPits[index]++;
 		}
 		else if (index==6) {
 			playerAMancala++;
 		}
-		else if (index>=7 || index<=12) {
+		else if (index>=7 && index<=12) {
 			playerBPits[index-7]++;
 		}
 		else {//index==13
@@ -100,13 +104,13 @@ public class Model {
 	
 	//for easy access to indices
 	public int getStoneNumber(int index) {
-		if (index>=0 || index<=5) {
+		if (index>=0 && index<=5) {
 			return playerAPits[index];
 		}
 		else if (index==6) {
 			return playerAMancala;
 		}
-		else if (index>=7 || index<=12) {
+		else if (index>=7 && index<=12) {
 			return playerBPits[index-7];
 		}
 		else {//index==13
@@ -150,7 +154,7 @@ public class Model {
 			playerAPits[index] = 0;
 		}
 		else {
-			playerBPits[index] = 0;
+			playerBPits[index-7] = 0;
 		}
 	}
 	
