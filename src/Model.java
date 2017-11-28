@@ -22,26 +22,6 @@ public class Model {
 		playerBMancala = 0;
 		listeners = new ArrayList<ChangeListener>();
 	}
-	
-//	//called in mousePressed, controllerListener
-//	public void update(int placingNumber){ //if contains() method (called in mousePressed) returns number for placing/which pit. (or maybe mousePressed would figure out the number with the contains method?) 
-//		if (placingNumber> || placingNumber< ) //temporary
-//		else if(placingNumber== )
-//		else if(placingNumber> || placingNumber< )
-//		else 
-//			
-//			//if player A Pits
-//			playerAPits[placingNumber]++; //maybe [placingNumber - 1]
-//			//if player A Mancala
-//			playerAMancala++;
-//			//if player B Pits
-//			playerBPits[placingNumber]++;
-//			//if player B Mancala
-//			playerBMancala++;
-//	}
-	
-	//public void updatePit(){ }
-	//public void updateMancala() { }
 		
 	public void setInitNumStones(int val) {
 		initNumStones = val;

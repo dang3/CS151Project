@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	//create pocket class
 	//change mancala class
 	private Model model;
-	boolean isPlayerA;
+	private boolean isPlayerA;
 	
 	public MancalaPanel(Model model) {
 		this.model = model;
@@ -36,6 +37,10 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		setSize(600,180);
 		border = new LineBorder(Color.BLACK, 3);
 		setBorder(border);
+	}
+	
+	public boolean getIsPlayerA() {
+		return isPlayerA;
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -82,11 +87,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 			}
 			
-			// tells you index of the pocket that was clicked
-			if(pocket != null) {
-				// model.updateModel(gameBoard.pockets.indexOf(pocket));
-//				System.out.println(pocketList.indexOf(pocket));
-			}
+
 			if (pocket==null) {
 				System.out.println("Please select a pit. ");
 				return;
@@ -112,7 +113,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			//for loop until #of stones runs out
 			int nextPitIndex = index + 1;
 			int stoneNumber = model.getStoneNumber(index);
+
 			model.toZero(index);//set chosen pit to zero stones
+
 			System.out.println(stoneNumber);
 			if (stoneNumber==0) {
 				System.out.println("Please pick a pit with stones inside. ");
@@ -178,6 +181,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 				
 			}
+			model.toZero(index);//set chosen pit to zero stones
 			
 			
 			//check if all pits on a side are empty 
@@ -197,6 +201,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			
 			//change player at end
 			isPlayerA = !isPlayerA;
+			
+				
 		}
 	}
 
