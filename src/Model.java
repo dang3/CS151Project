@@ -136,7 +136,7 @@ public class Model {
 	public void sideBIntoB() {
 		for (int i = 7; i<=12; i++) {
 			playerBMancala = playerBMancala + getStoneNumber(i);
-			playerBPits[i] =0;
+			playerBPits[i-7] =0;
 		}
 	}
 	
