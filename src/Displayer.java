@@ -20,8 +20,6 @@ public class Displayer extends JFrame implements ChangeListener {
 		
 		model.attach(this);
 		model.attach(mancalaPanel);
-		
-		
 	}
 	
 	private void initFrame() {

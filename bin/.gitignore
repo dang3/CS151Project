@@ -1,5 +1,6 @@
-/Frame.class
+/Displayer.class
 /Main.class
+/Mancala.class
 /MancalaPanel$Listener.class
 /MancalaPanel.class
 /Model.class
@@ -8,4 +9,3 @@
 /Pocket.class
 /StartMenu$1.class
 /StartMenu.class
-/Displayer.class
