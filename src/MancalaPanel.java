@@ -57,6 +57,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			Pocket pocket = new Pocket(pocketList.size(), dx, dy, 50);
 			pocketList.add(pocket);
 			dy = startY + 105;
+			//pocket.setNumStones(model.getStoneNumber(i)); //?
 		}
 		// draw second mancala
 		pocketList.add(new Pocket(pocketList.size(),startX + 520, startY + 20, 60, 140));
@@ -84,10 +85,11 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			// tells you index of the pocket that was clicked
 			if(pocket != null) {
 				// model.updateModel(gameBoard.pockets.indexOf(pocket));
-				System.out.println(pocketList.indexOf(pocket));
+//				System.out.println(pocketList.indexOf(pocket));
 			}
 			if (pocket==null) {
 				System.out.println("Please select a pit. ");
+				return;
 			}
 			
 			//check if correct player's pits
@@ -96,6 +98,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				if (index>5) {
 					System.out.println("You are Player A, please choose pits on your side. ");
 					return;//exit the method? want to skip actual update part
+					//make sure doesn't mess up undo method
 				}
 			}
 			else{
@@ -109,13 +112,16 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			//for loop until #of stones runs out
 			int nextPitIndex = index + 1;
 			int stoneNumber = model.getStoneNumber(index);
+			System.out.println(stoneNumber);
 			if (stoneNumber==0) {
 				System.out.println("Please pick a pit with stones inside. ");
+				return;//keep same player
 			}
 			for (; stoneNumber>0; stoneNumber-- ) {//get method for stoneNumber in that pit?
 				
 				if (nextPitIndex==14) { //back to beginning of loop
 					nextPitIndex=0;
+					stoneNumber = stoneNumber+1;
 				}
 				else if(nextPitIndex==6){ 
 					if (isPlayerA) {
@@ -129,6 +135,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					else { //skip because player B
 						stoneNumber=stoneNumber+1; //add stone back to counter?
 					}
+					nextPitIndex++;
 				}
 				else if (nextPitIndex==13) {
 					if (!isPlayerA) {
@@ -140,6 +147,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					else { //skip
 						stoneNumber=stoneNumber+1;
 					}
+					nextPitIndex++;
 				}
 				else {
 					if (stoneNumber==1) { //last stone
@@ -162,19 +170,25 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					else {
 						model.updateModel(nextPitIndex);
 					}
+					nextPitIndex++;
 				}
-				nextPitIndex++;
+				
 			}
 			model.toZero(index);//set chosen pit to zero stones
 			
 			//check if all pits on a side are empty 
 			if (model.sideAEmpty())  {
 				model.sideBIntoB();
-				System.exit(0); //end
+				//print end of game
+				//pop up window of winner?
+				//System.exit(0); //end
+				winner();
 			}
 			else if (model.sideBEmpty()) {
 				model.sideAIntoA();
-				System.exit(0); //end
+				//print end of game
+				//System.exit(0); //end
+				winner();
 			}		
 			
 			//change player at end
@@ -182,7 +196,22 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		}
 	}
 
-
+	private void winner(){
+		int AMancala = model.getPlayerAMancala();
+		int BMancala = model.getPlayerBMancala(); 
+		System.out.println("A: " + AMancala);
+		System.out.println("B: " + BMancala);
+		if (AMancala>BMancala) {
+			System.out.println("Player A is the winner. ");
+		}
+		else if (AMancala<BMancala) {
+			System.out.println("Player B is the winner. ");
+		}
+		else { //tie
+			System.out.println("There is a tie! Both players win!");
+		}
+	}
+	
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// Mancala gameBoard reads from the Model how many seeds per pocket,
@@ -193,6 +222,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				Pocket p = pocketList.get(i);
 				p.setNumStones(stonesNum);
 		}
-		repaint();
+		repaint(); //? does this work
 	}
 }
