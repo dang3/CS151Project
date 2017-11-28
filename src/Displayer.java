@@ -1,7 +1,9 @@
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class Displayer extends JFrame {
+public class Displayer extends JFrame implements ChangeListener {
 	private final int WIDTH = 800;
 	private final int HEIGHT = 500;
 	private PlayerBox player1;
@@ -14,6 +16,12 @@ public class Displayer extends JFrame {
 		initComponents();
 		initFrame();
 		startMenu = new StartMenu(model);
+		player1.setTurn();
+		
+		model.attach(this);
+		model.attach(mancalaPanel);
+		
+		
 	}
 	
 	private void initFrame() {
@@ -42,6 +50,12 @@ public class Displayer extends JFrame {
 		player2 = new PlayerBox("Player 2");
 		model = new Model();
 		mancalaPanel = new MancalaPanel(model);
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		player1.setTurn();
+		player2.setTurn();
 	}
 }
 
