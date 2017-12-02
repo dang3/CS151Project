@@ -29,6 +29,9 @@ public class Model {
 			playerAPits[i] = initNumStones;
 			playerBPits[i] = initNumStones;
 		}
+		for(ChangeListener listener : listeners) {
+			listener.stateChanged( new ChangeEvent(this) );
+		}
 	}
 	
 	public int getInitNumStones() {

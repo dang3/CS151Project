@@ -115,6 +115,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			int stoneNumber = model.getStoneNumber(index);
 
 			model.toZero(index);//set chosen pit to zero stones
+			System.out.println("check zero 1: " + model.getStoneNumber(index));
 
 			System.out.println(stoneNumber);
 			if (stoneNumber==0) {
@@ -181,8 +182,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 				
 			}
-			model.toZero(index);//set chosen pit to zero stones
-			
+			System.out.println("check zero 1: " + model.getStoneNumber(index));
+
 			
 			//check if all pits on a side are empty 
 			if (model.sideAEmpty())  {
@@ -232,6 +233,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				Pocket p = pocketList.get(i);
 				p.setNumStones(stonesNum);
 		}
-		repaint(); //? does this work
+		repaint();
 	}
 }

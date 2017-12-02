@@ -31,6 +31,8 @@ public class Pocket {
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		outline = new Ellipse2D.Double(xPos, yPos, sizeX,sizeY);	// draw outline of pocket
+		g2.setColor(Color.WHITE);
+		g2.fill(outline);
 		g2.setColor(Color.BLACK);
 		g2.draw(outline);
 		drawStones(g2);
