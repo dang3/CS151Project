@@ -110,8 +110,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			int stoneNumber = model.getStoneNumber(index);
 
 			model.toZero(index);//set chosen pit to zero stones
-			System.out.println("check zero 1: " + model.getStoneNumber(index));
-
+			
 			System.out.println(stoneNumber);
 			if (stoneNumber==0) {
 				System.out.println("Please pick a pit with stones inside. ");
@@ -130,6 +129,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							//free turn
 							//keep status the same for isPlayerA and in undo methods later
 							//update and 
+							isPlayerA = !isPlayerA;//change so it gets changed back to A at the end
+							System.out.println("Player A, Take another turn. ");
 						}
 					}
 					else { //skip because player B
@@ -142,6 +143,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 						model.updateModel(nextPitIndex);
 						if (stoneNumber==1) { //last stone
 							//free turn case again
+							isPlayerA = !isPlayerA; //change here so its changed back to B at the end
+							System.out.println("Player B, Take another turn. ");
 						}
 					}
 					else { //skip
@@ -150,7 +153,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					nextPitIndex++;
 				}
 				else {
-					if (stoneNumber==1) { //last stone
+					if ((stoneNumber==1)&& (model.getStoneNumber(nextPitIndex)==0)){ //last stone and empty pit
 						//dont updateModel yet, check special case
 						int across = 12-nextPitIndex;
 						int value;
@@ -166,9 +169,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							value = value + 1 + model.getPlayerBMancala();
 							model.mancalaNewValue(false, value);
 						}
-						else{
-							model.updateModel(nextPitIndex);
-						}
 					}
 					else {
 						model.updateModel(nextPitIndex);
@@ -177,8 +177,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 				
 			}
-			System.out.println("check zero 1: " + model.getStoneNumber(index));
-
 			
 			//check if all pits on a side are empty 
 			if (model.sideAEmpty())  {

@@ -113,12 +113,18 @@ public class Model {
 			playerAMancala = playerAMancala + getStoneNumber(i);
 			playerAPits[i] = 0;
 		}
+		for(ChangeListener listener : listeners) {
+			listener.stateChanged( new ChangeEvent(this) );
+		}
 	}
 	
 	public void sideBIntoB() {
 		for (int i = 7; i<=12; i++) {
 			playerBMancala = playerBMancala + getStoneNumber(i);
 			playerBPits[i-7] =0;
+		}
+		for(ChangeListener listener : listeners) {
+			listener.stateChanged( new ChangeEvent(this) );
 		}
 	}
 	
@@ -138,6 +144,9 @@ public class Model {
 		else {
 			playerBPits[index-7] = 0;
 		}
+		for(ChangeListener listener : listeners) {
+			listener.stateChanged( new ChangeEvent(this) );
+		}
 	}
 	
 	public void mancalaNewValue(boolean isA, int value) {
@@ -147,6 +156,9 @@ public class Model {
 		}
 		else {
 			playerBMancala = value;
+		}
+		for(ChangeListener listener : listeners) {
+			listener.stateChanged( new ChangeEvent(this) );
 		}
 	}
 }
