@@ -14,17 +14,11 @@ import javax.swing.event.ChangeListener;
 
 public class MancalaPanel extends JPanel implements ChangeListener {
 	ArrayList<Pocket> pocketList;
-	int startX = 0; //150
-	int startY = 0;	//100
-	
-	
+	int startX = 0;
+	int startY = 0;	
 	private LineBorder border;
-	//Rectangle2D.Double mancala1 = new Rectangle2D.Double(startX + 20, startY + 20, 60, 140);
-	//Rectangle2D.Double mancala2 = new Rectangle2D.Double(startX + 520, startY + 20, 60, 140);
 	Ellipse2D.Double mancala1 = new Ellipse2D.Double();
 	Ellipse2D.Double mancala2 = new Ellipse2D.Double(startX + 520, startY + 20, 60, 140);
-	//create pocket class
-	//change mancala class
 	private Model model;
 	private boolean isPlayerA;
 	
@@ -53,7 +47,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				dx -= 70;
 				dy -= 75;
 				// draw first mancala
-				pocketList.add(new Pocket(pocketList.size(),startX + 20, startY + 20, 60, 140));
+				pocketList.add(new Pocket(pocketList.size(),startX + 520, startY + 20, 60, 140));
 			}
 			if (i > 6) {
 				dx -= 140;
@@ -65,7 +59,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			//pocket.setNumStones(model.getStoneNumber(i)); //?
 		}
 		// draw second mancala
-		pocketList.add(new Pocket(pocketList.size(),startX + 520, startY + 20, 60, 140));
+
+		pocketList.add(new Pocket(pocketList.size(),startX + 20, startY + 20, 60, 140));
 		for (int i = 0; i < pocketList.size(); i++){
 			pocketList.get(i).draw(g);
 		}
@@ -101,7 +96,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					//make sure doesn't mess up undo method
 				}
 			}
-			else{
+			else {
 				if (index<7 || index>12){
 					System.out.println("You are Player B, please choose pits on your side. ");
 					return;//exit the method

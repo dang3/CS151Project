@@ -16,7 +16,6 @@ public class PlayerBox extends JPanel {
 	private JLabel scoreLabel;
 	private LineBorder border;
 	private Color defaultColor;
-	private int score;
 	
 	public PlayerBox(String str) {
 		initPanel();
@@ -43,19 +42,20 @@ public class PlayerBox extends JPanel {
 		playerLabel = new JLabel();
 		scoreLabel = new JLabel();
 		playerLabel.setText(str);
-		scoreLabel.setText( "Score: " + Integer.toString(score) );
+		scoreLabel.setText("Score: 0");
 		border = new LineBorder(Color.BLACK, 2);
-		score = 0;
 		setBorder(border);
 	}
 	
-	// Call this method to change background color to yellow when it is
-	// this player's turn
-	public void setTurn() {
-		if( getBackground().equals(Color.YELLOW) )
-			setBackground(defaultColor);
-		else
-			setBackground(Color.YELLOW);
+	public void startTurn() {
+		setBackground(Color.YELLOW);
 	}
 	
+	public void endTurn() {
+		setBackground(defaultColor);
+	}
+	
+	public void setScore(int score) {
+		scoreLabel.setText( "Score: " + Integer.toString(score) );
+	}
 }

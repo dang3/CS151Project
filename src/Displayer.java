@@ -16,10 +16,9 @@ public class Displayer extends JFrame implements ChangeListener {
 		initComponents();
 		initFrame();
 		startMenu = new StartMenu(model);
-		player1.setTurn();
-		
-		model.attach(this);
 		model.attach(mancalaPanel);
+		model.attach(this);
+		player1.startTurn();
 	}
 	
 	private void initFrame() {
@@ -29,8 +28,6 @@ public class Displayer extends JFrame implements ChangeListener {
 		setTitle("Team Mango - Mancala");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-		
-		
 		
 		mancalaPanel.setBounds(WIDTH/2 - mancalaPanel.getWidth()/2 , HEIGHT/8, mancalaPanel.getWidth()+1, mancalaPanel.getHeight()+1);
 		add(mancalaPanel);	// add the game board panel
@@ -52,8 +49,17 @@ public class Displayer extends JFrame implements ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		player1.setTurn();
-		player2.setTurn();
+		System.out.println(mancalaPanel.getIsPlayerA());
+		if(mancalaPanel.getIsPlayerA()) {
+			player1.startTurn();
+		}
+		else
+			player1.endTurn();
+		
+		player1.setScore( model.getPlayerAMancala() );
+		player2.setScore( model.getPlayerBMancala() );
+
+
 	}
 }
 

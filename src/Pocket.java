@@ -25,7 +25,7 @@ public class Pocket {
 	// called when creating regular pocket
 	public Pocket(int index, int xPos, int yPos, int size) {
 		this(index, xPos, yPos, size, size);
-		numStones = 3;
+		numStones = 0;
 	}
 	
 	public void draw(Graphics g) {
