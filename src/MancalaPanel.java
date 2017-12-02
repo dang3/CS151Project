@@ -82,6 +82,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 			}
 			
+
 			if (pocket==null) {
 				System.out.println("Please select a pit. ");
 				return;
@@ -107,6 +108,10 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			//for loop until #of stones runs out
 			int nextPitIndex = index + 1;
 			int stoneNumber = model.getStoneNumber(index);
+
+			model.toZero(index);//set chosen pit to zero stones
+			System.out.println("check zero 1: " + model.getStoneNumber(index));
+
 			System.out.println(stoneNumber);
 			if (stoneNumber==0) {
 				System.out.println("Please pick a pit with stones inside. ");
@@ -146,7 +151,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 				else {
 					if (stoneNumber==1) { //last stone
-						//dont updateModel yet
+						//dont updateModel yet, check special case
 						int across = 12-nextPitIndex;
 						int value;
 						if (isPlayerA && model.isSideA(nextPitIndex)) {
@@ -161,6 +166,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							value = value + 1 + model.getPlayerBMancala();
 							model.mancalaNewValue(false, value);
 						}
+						else{
+							model.updateModel(nextPitIndex);
+						}
 					}
 					else {
 						model.updateModel(nextPitIndex);
@@ -169,7 +177,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 				
 			}
-			model.toZero(index);//set chosen pit to zero stones
+			System.out.println("check zero 1: " + model.getStoneNumber(index));
+
 			
 			//check if all pits on a side are empty 
 			if (model.sideAEmpty())  {
@@ -219,6 +228,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				Pocket p = pocketList.get(i);
 				p.setNumStones(stonesNum);
 		}
-		repaint(); //? does this work
+		repaint();
 	}
 }

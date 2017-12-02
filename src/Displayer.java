@@ -19,6 +19,7 @@ public class Displayer extends JFrame implements ChangeListener {
 		model.attach(mancalaPanel);
 		model.attach(this);
 		player1.startTurn();
+
 	}
 	
 	private void initFrame() {
