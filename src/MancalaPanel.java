@@ -169,6 +169,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							value = value + 1 + model.getPlayerBMancala();
 							model.mancalaNewValue(false, value);
 						}
+						else {
+							model.updateModel(nextPitIndex);
+						}
 					}
 					else {
 						model.updateModel(nextPitIndex);

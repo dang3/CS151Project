@@ -39,9 +39,21 @@ public class Pocket {
 	private void drawStones(Graphics2D g2) {
 		// draw number of stones in each pocket
 		g2.setColor(Color.RED);
+		int xCount = 0;
+		int yCount = 0;
 		for(int i = 0; i < numStones; i++) {
-			Ellipse2D stone = new Ellipse2D.Double(xPos+10 + (i*10), yPos + sizeY/2, 5,5);
+			int xCoord = xPos+10 + (xCount*10);
+			int yCoord = yPos + sizeY/3 + yCount;
+			int length = 5;
+			if (!outline.contains(xCoord, yCoord, length, length)){
+				xCount = 0;
+				yCount = yCount + 7;
+			}
+			xCoord = xPos+10 + (xCount*10);
+			yCoord = yPos + sizeY/3 + yCount;
+			Ellipse2D stone = new Ellipse2D.Double(xCoord, yCoord, length,length);
 			g2.fill(stone);
+			xCount++;
 		}
 	}
 	
