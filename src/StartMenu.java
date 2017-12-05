@@ -45,9 +45,13 @@ public class StartMenu  {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String str = numStonesBox.getSelectedItem().toString();
-				model.setInitNumStones( Integer.parseInt(str) );	// set initial number of stones
-				System.out.println(str);
+				String stoneStr = numStonesBox.getSelectedItem().toString();
+				model.setInitNumStones( Integer.parseInt(stoneStr) );	// set initial number of stones
+				System.out.println(stoneStr);
+				
+				String styleStr = boardStyleBox.getSelectedItem().toString().substring(6);
+				model.setStyle(Integer.parseInt(styleStr));
+				System.out.println("Style: " + styleStr);
 				
 				// need to do same for board style
 				frame.dispose();	// close the frame	

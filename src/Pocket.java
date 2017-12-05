@@ -11,6 +11,7 @@ public class Pocket {
 	private int sizeX;
 	private int sizeY;
 	private Ellipse2D.Double outline;
+	MancalaStyle style;
 	
 	// this constructor is called when creating new mancala
 	public Pocket(int index, int xPos, int yPos, int sizeX, int sizeY){
@@ -25,35 +26,35 @@ public class Pocket {
 	// called when creating regular pocket
 	public Pocket(int index, int xPos, int yPos, int size) {
 		this(index, xPos, yPos, size, size);
-		numStones = 0;
+		numStones = 3;
 	}
 	
-	public void draw(Graphics g) {
+	public void draw(Graphics g, Color c) {
 		Graphics2D g2 = (Graphics2D) g;
 		outline = new Ellipse2D.Double(xPos, yPos, sizeX,sizeY);	// draw outline of pocket
-		g2.setColor(Color.BLACK);
+		g2.setColor(c);
 		g2.draw(outline);
 		drawStones(g2);
 	}
 	
 	private void drawStones(Graphics2D g2) {
 		// draw number of stones in each pocket
-		g2.setColor(Color.RED);
-		int xCount = 0;
-		int yCount = 0;
-		for(int i = 0; i < numStones; i++) {
-			int xCoord = xPos+10 + (xCount*10);
-			int yCoord = yPos + sizeY/3 + yCount;
-			int length = 5;
-			if (!outline.contains(xCoord, yCoord, length, length)){
-				xCount = 0;
-				yCount = yCount + 7;
-			}
-			xCoord = xPos+10 + (xCount*10);
-			yCoord = yPos + sizeY/3 + yCount;
-			Ellipse2D stone = new Ellipse2D.Double(xCoord, yCoord, length,length);
-			g2.fill(stone);
-			xCount++;
+				g2.setColor(Color.black);
+				int xCount = 0;
+				int yCount = 0;
+				for(int i = 0; i < numStones; i++) {
+					int xCoord = xPos+10 + (xCount*10);
+					int yCoord = yPos + sizeY/3 + yCount;
+					int length = 5;
+					if (!outline.contains(xCoord, yCoord, length, length)){
+						xCount = 0;
+						yCount = yCount + 7;
+					}
+					xCoord = xPos+10 + (xCount*10);
+					yCoord = yPos + sizeY/3 + yCount;
+					Ellipse2D stone = new Ellipse2D.Double(xCoord, yCoord, length,length);
+					g2.fill(stone);
+					xCount++;
 		}
 	}
 	
@@ -70,6 +71,9 @@ public class Pocket {
 		return numStones;
 	}
 	
+	public Color setColor(){
+		return Color.blue;
+	}
 	
 	
 	/** IGNORE THIS **/

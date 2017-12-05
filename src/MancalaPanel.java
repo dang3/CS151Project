@@ -14,13 +14,18 @@ import javax.swing.event.ChangeListener;
 
 public class MancalaPanel extends JPanel implements ChangeListener {
 	ArrayList<Pocket> pocketList;
-	int startX = 0;
-	int startY = 0;	
+	int startX = 0; //150
+	int startY = 0;	//100
+	
+	Color cBoard;
+	Color cPocket;
 	private LineBorder border;
 	Ellipse2D.Double mancala1 = new Ellipse2D.Double();
 	Ellipse2D.Double mancala2 = new Ellipse2D.Double(startX + 520, startY + 20, 60, 140);
+	//create pocket class
+	//change mancala class
 	private Model model;
-	private boolean isPlayerA;
+	boolean isPlayerA;
 	
 	public MancalaPanel(Model model) {
 		this.model = model;
@@ -29,15 +34,19 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		isPlayerA=true;
 		pocketList = new ArrayList<>();
 		setSize(600,180);
-		border = new LineBorder(Color.BLACK, 3);
-		setBorder(border);
+		cBoard = model.getBoardColor();
+		cPocket = model.getPocketColor();
+		
 	}
-	
 	public boolean getIsPlayerA() {
 		return isPlayerA;
 	}
 	
+	
 	public void paintComponent(Graphics g) {
+		//System.out.println("actualboard: " + cBoard);
+		border = new LineBorder(cBoard, 3);
+		setBorder(border);
 		super.paintComponent(g);
 		int dx = startX+30;
 		int dy = startY+105;
@@ -47,7 +56,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				dx -= 70;
 				dy -= 75;
 				// draw first mancala
-				pocketList.add(new Pocket(pocketList.size(),startX + 520, startY + 20, 60, 140));
+				pocketList.add(new Pocket(pocketList.size(),startX + 20, startY + 20, 60, 140));
 			}
 			if (i > 6) {
 				dx -= 140;
@@ -59,10 +68,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			//pocket.setNumStones(model.getStoneNumber(i)); //?
 		}
 		// draw second mancala
-
-		pocketList.add(new Pocket(pocketList.size(),startX + 20, startY + 20, 60, 140));
+		pocketList.add(new Pocket(pocketList.size(),startX + 520, startY + 20, 60, 140));
 		for (int i = 0; i < pocketList.size(); i++){
-			pocketList.get(i).draw(g);
+			pocketList.get(i).draw(g, cPocket);
 		}
 		
 	}
@@ -82,7 +90,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 			}
 			
-
 			if (pocket==null) {
 				System.out.println("Please select a pit. ");
 				return;
@@ -97,7 +104,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					//make sure doesn't mess up undo method
 				}
 			}
-			else {
+			else{
 				if (index<7 || index>12){
 					System.out.println("You are Player B, please choose pits on your side. ");
 					return;//exit the method
@@ -108,9 +115,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			//for loop until #of stones runs out
 			int nextPitIndex = index + 1;
 			int stoneNumber = model.getStoneNumber(index);
-
-			model.toZero(index);//set chosen pit to zero stones
-			
 			System.out.println(stoneNumber);
 			if (stoneNumber==0) {
 				System.out.println("Please pick a pit with stones inside. ");
@@ -129,8 +133,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							//free turn
 							//keep status the same for isPlayerA and in undo methods later
 							//update and 
-							isPlayerA = !isPlayerA;//change so it gets changed back to A at the end
-							System.out.println("Player A, Take another turn. ");
 						}
 					}
 					else { //skip because player B
@@ -143,8 +145,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 						model.updateModel(nextPitIndex);
 						if (stoneNumber==1) { //last stone
 							//free turn case again
-							isPlayerA = !isPlayerA; //change here so its changed back to B at the end
-							System.out.println("Player B, Take another turn. ");
 						}
 					}
 					else { //skip
@@ -153,8 +153,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					nextPitIndex++;
 				}
 				else {
-					if ((stoneNumber==1)&& (model.getStoneNumber(nextPitIndex)==0)){ //last stone and empty pit
-						//dont updateModel yet, check special case
+					if (stoneNumber==1) { //last stone
+						//dont updateModel yet
 						int across = 12-nextPitIndex;
 						int value;
 						if (isPlayerA && model.isSideA(nextPitIndex)) {
@@ -169,9 +169,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							value = value + 1 + model.getPlayerBMancala();
 							model.mancalaNewValue(false, value);
 						}
-						else {
-							model.updateModel(nextPitIndex);
-						}
 					}
 					else {
 						model.updateModel(nextPitIndex);
@@ -180,6 +177,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 				
 			}
+//newchange		//model.toZero(index);//set chosen pit to zero stones
 			
 			//check if all pits on a side are empty 
 			if (model.sideAEmpty())  {
@@ -198,8 +196,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			
 			//change player at end
 			isPlayerA = !isPlayerA;
-			
-				
 		}
 	}
 
@@ -223,12 +219,14 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		// Mancala gameBoard reads from the Model how many seeds per pocket,
 		// then the View redraws
-		
+		cBoard = model.getBoardColor();
+		cPocket = model.getPocketColor();
 		for (int i = 0; i<14; i++) {
 			int stonesNum = model.getStoneNumber(i);
 				Pocket p = pocketList.get(i);
 				p.setNumStones(stonesNum);
 		}
-		repaint();
+		//revalidate();
+		repaint(); //? does this work
 	}
 }
