@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -11,6 +12,10 @@ public class Model {
 	private int playerAMancala;
 	private int playerBMancala;
 	private int initNumStones;
+	private int styleType;
+	private Style style;
+	Color cBoard;
+	Color cPocket;
 	
 	private ArrayList<ChangeListener> listeners;
 	
@@ -21,6 +26,7 @@ public class Model {
 		playerAMancala = 0;
 		playerBMancala = 0;
 		listeners = new ArrayList<ChangeListener>();
+		//cBoard = Color.black;
 	}
 		
 	public void setInitNumStones(int val) {
@@ -33,10 +39,35 @@ public class Model {
 			listener.stateChanged( new ChangeEvent(this) );
 		}
 	}
-	
+
+	public void setStyle(int val){
+		styleType = val;
+		if (val == 1){
+			System.out.println("stylejuan");
+			style = new MancalaStyle();
+		}
+		else if (val == 2){
+			style = new MancalaStyle1();
+		}
+		cBoard = style.colorOfBoard();
+		System.out.println(cBoard);
+		cPocket = style.colorOfPockets();
+		System.out.println(cPocket);
+		for (ChangeListener listener : listeners){
+			listener.stateChanged(new ChangeEvent(this));
+		}
+	}
+	public Color getBoardColor(){
+		return cBoard;
+	}
+	public Color getPocketColor(){
+		return cPocket;
+	}
+
 	public int getInitNumStones() {
 		return initNumStones;
 	}
+	
 	
 	public int[] getPlayerAPits() {
 		return playerAPits;
