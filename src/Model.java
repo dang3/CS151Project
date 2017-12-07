@@ -16,6 +16,9 @@ public class Model {
 	private Style style;
 	Color cBoard;
 	Color cPocket;
+	private boolean isPlayerATurn = true;
+	
+	
 	
 	private ArrayList<ChangeListener> listeners;
 	
@@ -35,9 +38,7 @@ public class Model {
 			playerAPits[i] = initNumStones;
 			playerBPits[i] = initNumStones;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 
 	public void setStyle(int val){
@@ -53,9 +54,7 @@ public class Model {
 		System.out.println(cBoard);
 		cPocket = style.colorOfPockets();
 		System.out.println(cPocket);
-		for (ChangeListener listener : listeners){
-			listener.stateChanged(new ChangeEvent(this));
-		}
+		notifyListeners();
 	}
 	public Color getBoardColor(){
 		return cBoard;
@@ -110,9 +109,7 @@ public class Model {
 		}
 		
 		// let the views know about the change so that they update
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	//for easy access to indices
@@ -144,9 +141,7 @@ public class Model {
 			playerAMancala = playerAMancala + getStoneNumber(i);
 			playerAPits[i] = 0;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	public void sideBIntoB() {
@@ -154,9 +149,7 @@ public class Model {
 			playerBMancala = playerBMancala + getStoneNumber(i);
 			playerBPits[i-7] =0;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	public boolean isSideA(int index) {
@@ -175,9 +168,7 @@ public class Model {
 		else {
 			playerBPits[index-7] = 0;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	public void mancalaNewValue(boolean isA, int value) {
@@ -188,9 +179,22 @@ public class Model {
 		else {
 			playerBMancala = value;
 		}
+		notifyListeners();
+	}
+	
+	public void notifyListeners() {
 		for(ChangeListener listener : listeners) {
 			listener.stateChanged( new ChangeEvent(this) );
 		}
+	}
+	
+	public void setIsPlayerATurn(boolean b) {
+		isPlayerATurn = b;
+		notifyListeners();
+	}
+	
+	public boolean getIsPlayerATurn() {
+		return isPlayerATurn;
 	}
 
 

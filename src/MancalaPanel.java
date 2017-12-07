@@ -25,22 +25,19 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	//create pocket class
 	//change mancala class
 	private Model model;
-	boolean isPlayerA;
 	
 	public MancalaPanel(Model model) {
 		this.model = model;
 		repaint();
 		addMouseListener(new Listener());
-		isPlayerA=true;
+
 		pocketList = new ArrayList<>();
 		setSize(600,180);
 		cBoard = model.getBoardColor();
 		cPocket = model.getPocketColor();
-		
+
 	}
-	public boolean getIsPlayerA() {
-		return isPlayerA;
-	}
+
 	
 	
 	public void paintComponent(Graphics g) {
@@ -79,6 +76,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	// Controller
 	private class Listener extends MouseAdapter {
 		public void mousePressed(MouseEvent event) {
+			System.out.println("mousePressed");
 			Point mousePoint = event.getPoint();
 			Pocket pocket = null;
 			
@@ -97,7 +95,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			
 			//check if correct player's pits
 			int index = pocketList.indexOf(pocket);
-			if (isPlayerA) {
+			if (model.getIsPlayerATurn()) {
 				if (index>5) {
 					System.out.println("You are Player A, please choose pits on your side. ");
 					return;//exit the method? want to skip actual update part
@@ -127,7 +125,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					stoneNumber = stoneNumber+1;
 				}
 				else if(nextPitIndex==6){ 
-					if (isPlayerA) {
+					if (model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
 						if (stoneNumber==1) { //last stone
 							//free turn
@@ -141,7 +139,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					nextPitIndex++;
 				}
 				else if (nextPitIndex==13) {
-					if (!isPlayerA) {
+					if (!model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
 						if (stoneNumber==1) { //last stone
 							//free turn case again
@@ -157,13 +155,13 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 						//dont updateModel yet
 						int across = 12-nextPitIndex;
 						int value;
-						if (isPlayerA && model.isSideA(nextPitIndex)) {
+						if (model.getIsPlayerATurn() && model.isSideA(nextPitIndex)) {
 							value = model.getStoneNumber(across); //get other side 
 							model.toZero(across); //toZero other side
 							value = value + 1 + model.getPlayerAMancala();
 							model.mancalaNewValue(true, value);
 							}
-						else if ((!isPlayerA) && (!model.isSideA(nextPitIndex))) {
+						else if ((!model.getIsPlayerATurn()) && (!model.isSideA(nextPitIndex))) {
 							value = model.getStoneNumber(across); //get other side 
 							model.toZero(across); //toZero other side
 							value = value + 1 + model.getPlayerBMancala();
@@ -195,7 +193,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			}		
 			
 			//change player at end
-			isPlayerA = !isPlayerA;
+			//isPlayerA = !isPlayerA;
+			model.setIsPlayerATurn( !model.getIsPlayerATurn() );
 		}
 	}
 
