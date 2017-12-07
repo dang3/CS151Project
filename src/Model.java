@@ -12,6 +12,12 @@ public class Model {
 	private int playerAMancala;
 	private int playerBMancala;
 	private int initNumStones;
+
+	private int PREVplayerAPits[] = new int[6];
+	private int PREVplayerBPits[] = new int[6];
+	private int PREVplayerAMancala;
+	private int PREVplayerBMancala;
+
 	private int styleType;
 	private Style style;
 	Color cBoard;
@@ -19,6 +25,7 @@ public class Model {
 	private boolean isPlayerATurn = true;
 	
 	
+
 	
 	private ArrayList<ChangeListener> listeners;
 	
@@ -93,6 +100,7 @@ public class Model {
 	public void updateModel(int index) {
 		// update the arrays here
 		if (index>=0 && index<=5) {
+			PREVplayerAPits[index] = 
 			playerAPits[index]++;
 		}
 		else if (index==6) {

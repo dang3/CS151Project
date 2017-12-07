@@ -112,6 +112,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			//for loop until #of stones runs out
 			int nextPitIndex = index + 1;
 			int stoneNumber = model.getStoneNumber(index);
+			model.toZero(index);//set chosen pit to zero stones
 			System.out.println(stoneNumber);
 			if (stoneNumber==0) {
 				System.out.println("Please pick a pit with stones inside. ");
