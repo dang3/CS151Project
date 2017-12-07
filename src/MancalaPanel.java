@@ -56,7 +56,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				dx -= 70;
 				dy -= 75;
 				// draw first mancala
-				pocketList.add(new Pocket(pocketList.size(),startX + 20, startY + 20, 60, 140));
+				pocketList.add(new Pocket(pocketList.size(),startX + 520, startY + 20, 60, 140));
 			}
 			if (i > 6) {
 				dx -= 140;
@@ -68,7 +68,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			//pocket.setNumStones(model.getStoneNumber(i)); //?
 		}
 		// draw second mancala
-		pocketList.add(new Pocket(pocketList.size(),startX + 520, startY + 20, 60, 140));
+		pocketList.add(new Pocket(pocketList.size(),startX + 20, startY + 20, 60, 140));
 		for (int i = 0; i < pocketList.size(); i++){
 			pocketList.get(i).draw(g, cPocket);
 		}
