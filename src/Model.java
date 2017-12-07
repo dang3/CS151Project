@@ -51,16 +51,13 @@ public class Model {
 	public void setStyle(int val){
 		styleType = val;
 		if (val == 1){
-			System.out.println("stylejuan");
 			style = new MancalaStyle();
 		}
 		else if (val == 2){
 			style = new MancalaStyle1();
 		}
 		cBoard = style.colorOfBoard();
-		System.out.println(cBoard);
 		cPocket = style.colorOfPockets();
-		System.out.println(cPocket);
 		notifyListeners();
 	}
 	public Color getBoardColor(){
@@ -209,6 +206,7 @@ public class Model {
 	public boolean getIsPlayerATurn() {
 		return isPlayerATurn;
 	}
+
 
 	public void updateUndo() {
 		playerAPits = PREVplayerAPits;

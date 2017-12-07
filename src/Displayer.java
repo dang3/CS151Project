@@ -1,4 +1,7 @@
-import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -11,6 +14,7 @@ public class Displayer extends JFrame implements ChangeListener {
 	private Model model;
 	private MancalaPanel mancalaPanel;
 	private StartMenu startMenu;
+	private JButton undoButton;
 	
 	public Displayer() {
 		initComponents();
@@ -19,6 +23,7 @@ public class Displayer extends JFrame implements ChangeListener {
 		model.attach(mancalaPanel);
 		model.attach(this);
 		playerA.startTurn();
+		
 
 	}
 	
@@ -29,6 +34,10 @@ public class Displayer extends JFrame implements ChangeListener {
 		setTitle("Team Mango - Mancala");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
+		
+		undoButton.setBounds(mancalaPanel.getWidth()/2+60,320,80,30);
+		add(undoButton);
+		addListenerToButton();
 		
 		mancalaPanel.setBounds(WIDTH/2 - mancalaPanel.getWidth()/2 , HEIGHT/8, mancalaPanel.getWidth()+1, mancalaPanel.getHeight()+1);
 		add(mancalaPanel);	// add the game board panel
@@ -41,11 +50,20 @@ public class Displayer extends JFrame implements ChangeListener {
 		setVisible(true);		
 	}
 	
+	private void addListenerToButton() {
+		undoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.updateUndo();
+			}
+		});
+	}
+	
 	private void initComponents() {
 		playerA = new PlayerBox("Player A");
 		playerB = new PlayerBox("Player B");
 		model = new Model();
 		mancalaPanel = new MancalaPanel(model);
+		undoButton = new JButton("Undo");
 	}
 
 	@Override

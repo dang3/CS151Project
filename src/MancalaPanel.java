@@ -13,7 +13,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class MancalaPanel extends JPanel implements ChangeListener {
-	ArrayList<Pocket> pocketList;
+	private ArrayList<Pocket> pocketList;
 	int startX = 0; //150
 	int startY = 0;	//100
 	
@@ -35,7 +35,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		setSize(600,180);
 		cBoard = model.getBoardColor();
 		cPocket = model.getPocketColor();
-
 	}
 
 	
@@ -179,7 +178,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 				
 			}
-//newchange		//model.toZero(index);//set chosen pit to zero stones
+			//model.toZero(index);//set chosen pit to zero stones
 			
 			//check if all pits on a side are empty 
 			if (model.sideAEmpty())  {

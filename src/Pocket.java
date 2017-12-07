@@ -31,9 +31,7 @@ public class Pocket {
 
 	public void draw(Graphics g, Color c) {
 		Graphics2D g2 = (Graphics2D) g;
-		outline = new Ellipse2D.Double(xPos, yPos, sizeX, sizeY); // draw
-																	// outline
-																	// of pocket
+		outline = new Ellipse2D.Double(xPos, yPos, sizeX, sizeY); // draw outline of pocket
 		g2.setColor(c);
 		color = c;
 		g2.draw(outline);
@@ -82,28 +80,4 @@ public class Pocket {
 		else color = Color.black;
 		return color;
 	}
-
-	/** IGNORE THIS **/
-	// //methods to implement
-	// public void draw(){
-	//
-	// }
-	//
-	// public boolean contains(){
-	//
-	// }
-	//
-	// public boolean isSelected(){
-	//
-	// }
-	//
-	// // ??????
-	// public void setSelected(){
-	//
-	// }
-	//
-	// public void drawSelected(){
-	//
-	// }
-
 }
