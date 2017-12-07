@@ -26,14 +26,12 @@ public class Pocket {
 	// called when creating regular pocket
 	public Pocket(int index, int xPos, int yPos, int size) {
 		this(index, xPos, yPos, size, size);
-		numStones = 3;
+		numStones = 0;
 	}
 
 	public void draw(Graphics g, Color c) {
 		Graphics2D g2 = (Graphics2D) g;
-		outline = new Ellipse2D.Double(xPos, yPos, sizeX, sizeY); // draw
-																	// outline
-																	// of pocket
+		outline = new Ellipse2D.Double(xPos, yPos, sizeX, sizeY); // draw outline of pocket
 		g2.setColor(c);
 		color = c;
 		g2.draw(outline);
@@ -82,28 +80,4 @@ public class Pocket {
 		else color = Color.black;
 		return color;
 	}
-
-	/** IGNORE THIS **/
-	// //methods to implement
-	// public void draw(){
-	//
-	// }
-	//
-	// public boolean contains(){
-	//
-	// }
-	//
-	// public boolean isSelected(){
-	//
-	// }
-	//
-	// // ??????
-	// public void setSelected(){
-	//
-	// }
-	//
-	// public void drawSelected(){
-	//
-	// }
-
 }
