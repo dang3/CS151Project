@@ -44,6 +44,8 @@ public class Model {
 		for (int i = 0; i<6;i++) {
 			playerAPits[i] = initNumStones;
 			playerBPits[i] = initNumStones;
+			PREVplayerAPits[i] = initNumStones;
+			PREVplayerBPits[i] = initNumStones;
 		}
 		notifyListeners();
 	}
@@ -156,6 +158,8 @@ public class Model {
 	
 	public void sideBIntoB() {
 		for (int i = 7; i<=12; i++) {
+			PREVplayerBMancala = playerBMancala;
+			PREVplayerBPits = playerBPits;
 			playerBMancala = playerBMancala + getStoneNumber(i);
 			playerBPits[i-7] =0;
 		}
@@ -173,9 +177,11 @@ public class Model {
 	
 	public void toZero(int index) {
 		if (index<6) {
+			PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index] = 0;
 		}
 		else {
+			PREVplayerBPits[index-7] = playerBPits[index-7];
 			playerBPits[index-7] = 0;
 		}
 		notifyListeners();
@@ -183,10 +189,12 @@ public class Model {
 	
 	public void mancalaNewValue(boolean isA, int value) {
 		if (isA) {
+			PREVplayerAMancala = playerAMancala;
 			playerAMancala = value;
 			
 		}
 		else {
+			PREVplayerBMancala = playerBMancala;
 			playerBMancala = value;
 		}
 		notifyListeners();
@@ -213,6 +221,7 @@ public class Model {
 		playerAMancala = PREVplayerAMancala;
 		playerBPits = PREVplayerBPits;
 		playerBMancala = PREVplayerBMancala;
+		notifyListeners();
 	}
 
 }
