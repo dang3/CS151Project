@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -11,10 +12,20 @@ public class Model {
 	private int playerAMancala;
 	private int playerBMancala;
 	private int initNumStones;
+
 	private int PREVplayerAPits[] = new int[6];
 	private int PREVplayerBPits[] = new int[6];
 	private int PREVplayerAMancala;
 	private int PREVplayerBMancala;
+
+	private int styleType;
+	private Style style;
+	Color cBoard;
+	Color cPocket;
+	private boolean isPlayerATurn = true;
+	
+	
+
 	
 	private ArrayList<ChangeListener> listeners;
 	
@@ -25,6 +36,7 @@ public class Model {
 		playerAMancala = 0;
 		playerBMancala = 0;
 		listeners = new ArrayList<ChangeListener>();
+		//cBoard = Color.black;
 	}
 		
 	public void setInitNumStones(int val) {
@@ -33,14 +45,35 @@ public class Model {
 			playerAPits[i] = initNumStones;
 			playerBPits[i] = initNumStones;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
-	
+
+	public void setStyle(int val){
+		styleType = val;
+		if (val == 1){
+			System.out.println("stylejuan");
+			style = new MancalaStyle();
+		}
+		else if (val == 2){
+			style = new MancalaStyle1();
+		}
+		cBoard = style.colorOfBoard();
+		System.out.println(cBoard);
+		cPocket = style.colorOfPockets();
+		System.out.println(cPocket);
+		notifyListeners();
+	}
+	public Color getBoardColor(){
+		return cBoard;
+	}
+	public Color getPocketColor(){
+		return cPocket;
+	}
+
 	public int getInitNumStones() {
 		return initNumStones;
 	}
+	
 	
 	public int[] getPlayerAPits() {
 		return playerAPits;
@@ -84,9 +117,7 @@ public class Model {
 		}
 		
 		// let the views know about the change so that they update
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	//for easy access to indices
@@ -118,9 +149,7 @@ public class Model {
 			playerAMancala = playerAMancala + getStoneNumber(i);
 			playerAPits[i] = 0;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	public void sideBIntoB() {
@@ -128,9 +157,7 @@ public class Model {
 			playerBMancala = playerBMancala + getStoneNumber(i);
 			playerBPits[i-7] =0;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	public boolean isSideA(int index) {
@@ -149,9 +176,7 @@ public class Model {
 		else {
 			playerBPits[index-7] = 0;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	public void mancalaNewValue(boolean isA, int value) {
@@ -162,8 +187,23 @@ public class Model {
 		else {
 			playerBMancala = value;
 		}
+		notifyListeners();
+	}
+	
+	public void notifyListeners() {
 		for(ChangeListener listener : listeners) {
 			listener.stateChanged( new ChangeEvent(this) );
 		}
 	}
+	
+	public void setIsPlayerATurn(boolean b) {
+		isPlayerATurn = b;
+		notifyListeners();
+	}
+	
+	public boolean getIsPlayerATurn() {
+		return isPlayerATurn;
+	}
+
+
 }
