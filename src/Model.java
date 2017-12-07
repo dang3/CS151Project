@@ -103,16 +103,19 @@ public class Model {
 	public void updateModel(int index) {
 		// update the arrays here
 		if (index>=0 && index<=5) {
-			PREVplayerAPits[index] = 
+			PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index]++;
 		}
 		else if (index==6) {
+			PREVplayerAMancala = playerAMancala;
 			playerAMancala++;
 		}
 		else if (index>=7 && index<=12) {
+			PREVplayerBPits[index-7] = playerBPits[index-7];
 			playerBPits[index-7]++;
 		}
 		else {//index==13
+			PREVplayerBMancala = playerBMancala;
 			playerBMancala++;
 		}
 		
@@ -146,6 +149,8 @@ public class Model {
 	
 	public void sideAIntoA() {
 		for (int i = 0; i<=5; i++) {
+			PREVplayerAMancala = playerAMancala;
+			PREVplayerAPits = playerAPits;
 			playerAMancala = playerAMancala + getStoneNumber(i);
 			playerAPits[i] = 0;
 		}
@@ -205,5 +210,11 @@ public class Model {
 		return isPlayerATurn;
 	}
 
+	public void updateUndo() {
+		playerAPits = PREVplayerAPits;
+		playerAMancala = PREVplayerAMancala;
+		playerBPits = PREVplayerBPits;
+		playerBMancala = PREVplayerBMancala;
+	}
 
 }

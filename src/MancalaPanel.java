@@ -152,8 +152,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					nextPitIndex++;
 				}
 				else {
-					if (stoneNumber==1) { //last stone
-						//dont updateModel yet
+					if ((stoneNumber==1)&& (model.getStoneNumber(nextPitIndex)==0)){ //last stone and empty pit
+						//dont updateModel yet, check special case
 						int across = 12-nextPitIndex;
 						int value;
 						if (model.getIsPlayerATurn() && model.isSideA(nextPitIndex)) {
@@ -167,6 +167,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							model.toZero(across); //toZero other side
 							value = value + 1 + model.getPlayerBMancala();
 							model.mancalaNewValue(false, value);
+						}
+						else {
+							model.updateModel(nextPitIndex);
 						}
 					}
 					else {
