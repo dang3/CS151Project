@@ -43,16 +43,13 @@ public class Model {
 	public void setStyle(int val){
 		styleType = val;
 		if (val == 1){
-			System.out.println("stylejuan");
-			style = new MancalaStyle();
-		}
-		else if (val == 2){
 			style = new MancalaStyle1();
 		}
+		else if (val == 2){
+			style = new MancalaStyle2();
+		}
 		cBoard = style.colorOfBoard();
-		System.out.println(cBoard);
 		cPocket = style.colorOfPockets();
-		System.out.println(cPocket);
 		for (ChangeListener listener : listeners){
 			listener.stateChanged(new ChangeEvent(this));
 		}

@@ -31,11 +31,11 @@ public class Pocket {
 
 	public void draw(Graphics g, Color c) {
 		Graphics2D g2 = (Graphics2D) g;
-		outline = new Ellipse2D.Double(xPos, yPos, sizeX, sizeY); // draw
-																	// outline
-																	// of pocket
-		g2.setColor(c);
+		outline = new Ellipse2D.Double(xPos, yPos, sizeX, sizeY); // draw outline of pocket
+		g2.setColor(Color.black);
 		color = c;
+		//g2.setPaint(c);
+		//g2.fill(outline);
 		g2.draw(outline);
 		drawStones(g2);
 	}
