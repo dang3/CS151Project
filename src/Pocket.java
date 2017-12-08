@@ -26,25 +26,24 @@ public class Pocket {
 	// called when creating regular pocket
 	public Pocket(int index, int xPos, int yPos, int size) {
 		this(index, xPos, yPos, size, size);
-		numStones = 3;
+		numStones = 0;
 	}
 
 	public void draw(Graphics g, Color c) {
 		Graphics2D g2 = (Graphics2D) g;
 		outline = new Ellipse2D.Double(xPos, yPos, sizeX, sizeY); // draw outline of pocket
-		g2.setColor(Color.black);
 		color = c;
-		//g2.setPaint(c);
+		g2.setColor(c);
 		//g2.fill(outline);
 		g2.draw(outline);
+		g2.setColor(setPitColor());
 		drawStones(g2);
 	}
 
 	private void drawStones(Graphics2D g2) {
 		// draw number of stones in each pocket
 		
-		color = setPitColor();
-		g2.setColor(color);
+		//color = Color.green;
 		int xCount = 0;
 		int yCount = 0;
 		for (int i = 0; i < numStones; i++) {
@@ -58,6 +57,7 @@ public class Pocket {
 			xCoord = xPos + 10 + (xCount * 10);
 			yCoord = yPos + sizeY / 3 + yCount;
 			Ellipse2D stone = new Ellipse2D.Double(xCoord, yCoord, length, length);
+			
 			g2.fill(stone);
 			xCount++;
 		}
@@ -82,28 +82,4 @@ public class Pocket {
 		else color = Color.black;
 		return color;
 	}
-
-	/** IGNORE THIS **/
-	// //methods to implement
-	// public void draw(){
-	//
-	// }
-	//
-	// public boolean contains(){
-	//
-	// }
-	//
-	// public boolean isSelected(){
-	//
-	// }
-	//
-	// // ??????
-	// public void setSelected(){
-	//
-	// }
-	//
-	// public void drawSelected(){
-	//
-	// }
-
 }

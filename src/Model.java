@@ -12,10 +12,20 @@ public class Model {
 	private int playerAMancala;
 	private int playerBMancala;
 	private int initNumStones;
+
+	private int PREVplayerAPits[] = new int[6];
+	private int PREVplayerBPits[] = new int[6];
+	private int PREVplayerAMancala;
+	private int PREVplayerBMancala;
+
 	private int styleType;
 	private Style style;
 	Color cBoard;
 	Color cPocket;
+	private boolean isPlayerATurn = true;
+	
+	
+
 	
 	private ArrayList<ChangeListener> listeners;
 	
@@ -34,10 +44,10 @@ public class Model {
 		for (int i = 0; i<6;i++) {
 			playerAPits[i] = initNumStones;
 			playerBPits[i] = initNumStones;
+			PREVplayerAPits[i] = initNumStones;
+			PREVplayerBPits[i] = initNumStones;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 
 	public void setStyle(int val){
@@ -50,9 +60,8 @@ public class Model {
 		}
 		cBoard = style.colorOfBoard();
 		cPocket = style.colorOfPockets();
-		for (ChangeListener listener : listeners){
-			listener.stateChanged(new ChangeEvent(this));
-		}
+
+		notifyListeners();
 	}
 	public Color getBoardColor(){
 		return cBoard;
@@ -61,18 +70,18 @@ public class Model {
 		return cPocket;
 	}
 
-	public int getInitNumStones() {
-		return initNumStones;
-	}
-	
-	
-	public int[] getPlayerAPits() {
-		return playerAPits;
-	}
-	
-	public int[] getPlayerBPits() {
-		return playerBPits;
-	}
+//	public int getInitNumStones() {
+//		return initNumStones;
+//	}
+//	
+//	
+//	public int[] getPlayerAPits() {
+//		return playerAPits;
+//	}
+//	
+//	public int[] getPlayerBPits() {
+//		return playerBPits;
+//	}
 	
 	public int getPlayerAMancala(){
 		return playerAMancala;
@@ -94,22 +103,24 @@ public class Model {
 	public void updateModel(int index) {
 		// update the arrays here
 		if (index>=0 && index<=5) {
+			PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index]++;
 		}
 		else if (index==6) {
+			PREVplayerAMancala = playerAMancala;
 			playerAMancala++;
 		}
 		else if (index>=7 && index<=12) {
+			PREVplayerBPits[index-7] = playerBPits[index-7];
 			playerBPits[index-7]++;
 		}
 		else {//index==13
+			PREVplayerBMancala = playerBMancala;
 			playerBMancala++;
 		}
 		
 		// let the views know about the change so that they update
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	//for easy access to indices
@@ -138,22 +149,22 @@ public class Model {
 	
 	public void sideAIntoA() {
 		for (int i = 0; i<=5; i++) {
+			PREVplayerAMancala = playerAMancala;
+			PREVplayerAPits = playerAPits;
 			playerAMancala = playerAMancala + getStoneNumber(i);
 			playerAPits[i] = 0;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	public void sideBIntoB() {
 		for (int i = 7; i<=12; i++) {
+			PREVplayerBMancala = playerBMancala;
+			PREVplayerBPits = playerBPits;
 			playerBMancala = playerBMancala + getStoneNumber(i);
 			playerBPits[i-7] =0;
 		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+		notifyListeners();
 	}
 	
 	public boolean isSideA(int index) {
@@ -167,28 +178,68 @@ public class Model {
 	
 	public void toZero(int index) {
 		if (index<6) {
+			PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index] = 0;
 		}
 		else {
+			PREVplayerBPits[index-7] = playerBPits[index-7];
 			playerBPits[index-7] = 0;
 		}
+		notifyListeners();
+	}
+	
+	public void mancalaNewValue(boolean isA, int value) {
+		if (isA) {
+			PREVplayerAMancala = playerAMancala;
+			playerAMancala = value;
+			
+		}
+		else {
+			PREVplayerBMancala = playerBMancala;
+			playerBMancala = value;
+		}
+		notifyListeners();
+	}
+	
+	public void notifyListeners() {
+		System.out.println("listeners: " + listeners.size());
 		for(ChangeListener listener : listeners) {
 			listener.stateChanged( new ChangeEvent(this) );
 		}
 	}
 	
-	public void mancalaNewValue(boolean isA, int value) {
-		if (isA) {
-			playerAMancala = value;
-			
-		}
-		else {
-			playerBMancala = value;
-		}
-		for(ChangeListener listener : listeners) {
-			listener.stateChanged( new ChangeEvent(this) );
-		}
+	public void setIsPlayerATurn(boolean b) {
+		isPlayerATurn = b;
+		notifyListeners();
+	}
+	
+	public boolean getIsPlayerATurn() {
+		return isPlayerATurn;
 	}
 
+
+	public void updateUndo() {
+		for (int i = 0; i < playerAPits.length; i++){
+			int pit = playerAPits[i];
+			System.out.print(pit+", ");
+		}
+//		System.out.println("playerAPits: "+ playerAPits);
+//		System.out.println("playerBPits: "+ playerBPits);
+//		System.out.println("playerAMancala: "+ playerAMancala);
+//		System.out.println("playerBMancala: "+ playerBMancala);
+
+		playerAPits = PREVplayerAPits;
+		playerAMancala = PREVplayerAMancala;
+		playerBPits = PREVplayerBPits;
+		playerBMancala = PREVplayerBMancala;
+		//System.out.println("undo");
+//		System.out.print("Player A Pits: ");
+//		for (int i = 0; i < playerAPits.length; i++){
+//			int pit = playerAPits[i];
+//			System.out.print(pit+", ");
+//		}
+		notifyListeners();
+		//PREVplayerAPits = playerAPits;
+	}
 
 }
