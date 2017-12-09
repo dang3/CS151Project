@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,6 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+/**
+ * Mancala Board of game, including displaying pockets and stones
+ * Dennis Dang, Vera Wong, Marissa Xiong
+ * Ver 1.1
+ * 12/9/2017
+ */
 
 public class MancalaPanel extends JPanel implements ChangeListener {
 	private ArrayList<Pocket> pocketList;
@@ -26,6 +34,11 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	//change mancala class
 	private Model model;
 	
+	
+	/**
+	 * constructor of Mancala Panel
+	 * @param model a model that initializes the panel
+	 */
 	public MancalaPanel(Model model) {
 		this.model = model;
 		repaint();
@@ -37,8 +50,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		cPocket = model.getPocketColor();
 	}
 
-	
-	
+	/**
+	 * 
+	 */
 	public void paintComponent(Graphics g) {
 		//System.out.println("actualboard: " + cBoard);
 		border = new LineBorder(cBoard, 3);
@@ -72,10 +86,17 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	}
 	
 	
-	// Controller
+	/**
+	 * Controller Class that takes in information
+	 * 
+	 *
+	 */
 	private class Listener extends MouseAdapter {
+		/**
+		 * when mouse is pressed, game is played
+		 */
 		public void mousePressed(MouseEvent event) {
-			System.out.println("mousePressed");
+			//System.out.println("mousePressed");
 			Point mousePoint = event.getPoint();
 			Pocket pocket = null;
 			
@@ -132,7 +153,11 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							//free turn
 							//keep status the same for isPlayerA and in undo methods later
 							//update and 
-							model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
+							model.setIsPlayerATurn(!model.getIsPlayerATurn()); //change player turn back to a
+							if (model.getUndoCount() > 0){ //if undo has been used
+								//model.setIsPlayerATurn(model.getIsPlayerATurn());//change so it gets changed back to A at the end
+								System.out.println("change back to a");
+							}
 							System.out.println("Player A, Take another turn. ");
 						}
 					}
@@ -146,7 +171,11 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 						model.updateModel(nextPitIndex);
 						if (stoneNumber==1) { //last stone
 							//free turn case again
-							model.setIsPlayerATurn(!model.getIsPlayerATurn());
+							model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
+							if (model.getUndoCount() > 0){ //if undo has been used
+								model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
+								System.out.println("change back to b");
+							}
 							System.out.println("Player B, Take another turn. ");
 						}
 					}
@@ -160,7 +189,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 						//dont updateModel yet, check special case
 						int across = 12-nextPitIndex;
 						int value;
-						if (model.getIsPlayerATurn() && model.isSideA(nextPitIndex)) {
+						if (model.getIsPlayerATurn() && model.isSideA(nextPitIndex)) { //if a's turn and index is on a's side
 							value = model.getStoneNumber(across); //get other side 
 							model.toZero(across); //toZero other side
 							value = value + 1 + model.getPlayerAMancala();
@@ -206,6 +235,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		}
 	}
 
+	/**
+	 * indicates the winner, player a or b
+	 */
 	private void winner(){
 		int AMancala = model.getPlayerAMancala();
 		int BMancala = model.getPlayerBMancala(); 

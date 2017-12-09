@@ -10,6 +10,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Start Menu diolog of game
+ * Dennis Dang, Vera Wong, Marissa Xiong
+ * Ver 1.1
+ * 12/9/2017
+ */
+
 public class StartMenu  {
 	private JFrame frame;
 	private JPanel panel;
@@ -23,6 +30,11 @@ public class StartMenu  {
 	private GridBagConstraints c;
 	private Model model;
 	
+	
+	/**
+	 * constructor for startmenu
+	 * @param model model to initialize
+	 */
 	public StartMenu(Model model) {
 		this.model = model;
 		initFrame();
@@ -32,6 +44,9 @@ public class StartMenu  {
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * initialize the frame of the start menu
+	 */
 	private void initFrame() {
 		frame = new JFrame();
 		frame.setSize(300, 150);
@@ -40,6 +55,9 @@ public class StartMenu  {
 		frame.setResizable(false);
 	}
 	
+	/**
+	 * add listeners to the components of the start menu
+	 */
 	private void addListeners() {
 		startBut.addActionListener(new ActionListener(){
 
@@ -47,11 +65,10 @@ public class StartMenu  {
 			public void actionPerformed(ActionEvent e) {
 				String stoneStr = numStonesBox.getSelectedItem().toString();
 				model.setInitNumStones( Integer.parseInt(stoneStr) );	// set initial number of stones
-				System.out.println(stoneStr);
+				//System.out.println(stoneStr);
 				
 				String styleStr = boardStyleBox.getSelectedItem().toString().substring(6);
 				model.setStyle(Integer.parseInt(styleStr));
-				System.out.println("Style: " + styleStr);
 				
 				// need to do same for board style
 				frame.dispose();	// close the frame	
@@ -59,7 +76,9 @@ public class StartMenu  {
 		});
 	}
 	
-	
+	/**
+	 * initialize the components of the start menu
+	 */
 	private void initComponents() {
 		panel = new JPanel(new GridBagLayout());
 		frame.add(panel);
@@ -71,6 +90,9 @@ public class StartMenu  {
 		boardStyleBox = new JComboBox<>(boardStyle);
 	}
 	
+	/**
+	 * adding the components to the frame to display
+	 */
 	private void addComponents() {
 		c.insets = new Insets(10,0,0,0);  //top padding
 		c.gridx = 0;

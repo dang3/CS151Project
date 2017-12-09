@@ -1,3 +1,10 @@
+/**
+ * Entire display of program including players and mancala board
+ * Dennis Dang, Vera Wong, Marissa Xiong
+ * Ver 1.1
+ * 12/9/2017
+ */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +23,9 @@ public class Displayer extends JFrame implements ChangeListener {
 	private StartMenu startMenu;
 	private JButton undoButton;
 	
+	/**
+	 * constructor for Displayer class
+	 */
 	public Displayer() {
 		initComponents();
 		initFrame();
@@ -27,6 +37,9 @@ public class Displayer extends JFrame implements ChangeListener {
 
 	}
 	
+	/**
+	 * initialize the frame, adding game board panel, and drawing player box
+	 */
 	private void initFrame() {
 		setLayout(null);
 		setSize(WIDTH, HEIGHT);
@@ -50,6 +63,9 @@ public class Displayer extends JFrame implements ChangeListener {
 		setVisible(true);		
 	}
 	
+	/**
+	 * listener to undoButton
+	 */
 	private void addListenerToButton() {
 		undoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -60,6 +76,9 @@ public class Displayer extends JFrame implements ChangeListener {
 		
 	}
 	
+	/**
+	 * intializes player box and undo button and mancala and model
+	 */
 	private void initComponents() {
 		playerA = new PlayerBox("Player A");
 		playerB = new PlayerBox("Player B");

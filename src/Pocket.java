@@ -3,6 +3,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
+
+/**
+ * Draws pockets and stones to be put into Mancala Panel
+ * Dennis Dang, Vera Wong, Marissa Xiong
+ * Ver 1.1
+ * 12/9/2017
+ */
+
 public class Pocket {
 	private int numStones;
 	private int xPos;
@@ -13,7 +21,14 @@ public class Pocket {
 	private Ellipse2D.Double outline;
 	Color color;
 
-	// this constructor is called when creating new mancala
+	/**
+	 * this constructor is called when creating new mancala
+	 * @param index index of the mancala
+	 * @param xPos x position of the mancala
+	 * @param yPos y position of the mancala
+	 * @param sizeX width of mancala
+	 * @param sizeY height of mancal
+	 */
 	public Pocket(int index, int xPos, int yPos, int sizeX, int sizeY) {
 		this.index = index;
 		this.xPos = xPos;
@@ -23,12 +38,23 @@ public class Pocket {
 		numStones = 0;
 	}
 
-	// called when creating regular pocket
+	/**
+	 * this constructor is called when creating regular pocket
+	 * @param index index of the pocket
+	 * @param xPos x postion of the pocket
+	 * @param yPos y position of the pocket
+	 * @param size size of the pocket
+	 */
 	public Pocket(int index, int xPos, int yPos, int size) {
 		this(index, xPos, yPos, size, size);
 		numStones = 0;
 	}
 
+	/**
+	 * draw the pocket
+	 * @param g graphics
+	 * @param c color of the pocket
+	 */
 	public void draw(Graphics g, Color c) {
 		Graphics2D g2 = (Graphics2D) g;
 		outline = new Ellipse2D.Double(xPos, yPos, sizeX, sizeY); // draw outline of pocket
@@ -36,10 +62,13 @@ public class Pocket {
 		g2.setColor(c);
 		//g2.fill(outline);
 		g2.draw(outline);
-		g2.setColor(setPitColor());
+		g2.setColor(stoneColor());
 		drawStones(g2);
 	}
-
+	/**
+	 * draw stones into the pockt
+	 * @param g2 graphic
+	 */
 	private void drawStones(Graphics2D g2) {
 		// draw number of stones in each pocket
 		
@@ -63,19 +92,35 @@ public class Pocket {
 		}
 	}
 
+	/**
+	 * gets the outline of the pocket or mancala
+	 * @return outline of shape
+	 */
 	public Ellipse2D.Double getOutline() {
 		return outline;
 	}
-
+	
+	/**
+	 * sets the number of stones in pocket or mancala
+	 * @param val number to set pocket/mancala with
+	 */
 	public void setNumStones(int val) {
 		numStones = val;
 	}
 
+	/**
+	 * gets the number of stones
+	 * @return the number of stones in mancala or pocket
+	 */
 	public int getNumStones() {
 		return numStones;
 	}
-
-	public Color setPitColor() {
+	
+	/**
+	 * returns a stone color
+	 * @return the color of stone
+	 */
+	public Color stoneColor() {
 		if (color == Color.black){
 			color = Color.blue;
 		}
