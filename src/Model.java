@@ -229,10 +229,6 @@ public class Model {
 
 
 	public void updateUndo() {
-		if(undoCount == 3)
-			return;
-		
-		
 		for (int i = 0; i < playerAPits.length; i++){
 			int pit = playerAPits[i];
 			System.out.print(pit+", ");
@@ -259,6 +255,6 @@ public class Model {
 		notifyListeners();
 		undoCount++;
 		//PREVplayerAPits = playerAPits;
-	}
 
+	}
 }
