@@ -53,7 +53,8 @@ public class Displayer extends JFrame implements ChangeListener {
 	private void addListenerToButton() {
 		undoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				model.updateUndo();
+				if(model.getUndoCount() != 3) 
+					model.updateUndo();
 			}
 		});
 		

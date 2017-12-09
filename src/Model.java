@@ -11,13 +11,15 @@ public class Model {
 	private int playerBPits[] = new int[6];
 	private int playerAMancala;
 	private int playerBMancala;
-	private int initNumStones;
+	private int initNumStones;	
 
 	private int PREVplayerAPits[] = new int[6];
 	private int PREVplayerBPits[] = new int[6];
 	private int PREVplayerAMancala;
 	private int PREVplayerBMancala;
-
+	
+	private int undoCount;
+	
 	private int styleType;
 	private Style style;
 	Color cBoard;
@@ -36,7 +38,7 @@ public class Model {
 		playerAMancala = 0;
 		playerBMancala = 0;
 		listeners = new ArrayList<ChangeListener>();
-		//cBoard = Color.black;
+		undoCount = 0;
 	}
 		
 	public void setInitNumStones(int val) {
@@ -48,6 +50,14 @@ public class Model {
 			PREVplayerBPits[i] = initNumStones;
 		}
 		notifyListeners();
+	}
+	
+	public void setUndoCount(int c) {
+		undoCount = c;
+	}
+	
+	public int getUndoCount() {
+		return undoCount;
 	}
 
 	public void setStyle(int val){
@@ -73,7 +83,6 @@ public class Model {
 //	public int getInitNumStones() {
 //		return initNumStones;
 //	}
-//	
 //	
 //	public int[] getPlayerAPits() {
 //		return playerAPits;
@@ -101,6 +110,7 @@ public class Model {
 	 * @param index Index of the pit that was clicked
 	 */
 	public void updateModel(int index) {
+		undoCount = 0;
 		// update the arrays here
 		if (index>=0 && index<=5) {
 			PREVplayerAPits[index] = playerAPits[index];
@@ -219,46 +229,6 @@ public class Model {
 
 
 	public void updateUndo() {
-		boolean aturn = getIsPlayerATurn();
-		System.out.print("Player A Pits (before): ");
-		for (int i = 0; i < playerAPits.length; i++){
-			int pit = playerAPits[i];
-			System.out.print(pit+", ");
-		}
-		System.out.println();
-		System.out.print("Player B Pits (before): ");
-		for (int i = 0; i < playerBPits.length; i++){
-			int pit = playerBPits[i];
-			System.out.print(pit+", ");
-		}
-		System.out.println();
-		//System.out.println("playerAPits: "+ playerAPits);
-		//System.out.println("playerBPits: "+ playerBPits);
-		System.out.println("playerAMancala: "+ playerAMancala);
-		System.out.println("playerBMancala: "+ playerBMancala);
-
-		playerAPits = PREVplayerAPits;
-		playerAMancala = PREVplayerAMancala;
-		playerBPits = PREVplayerBPits;
-		playerBMancala = PREVplayerBMancala;
-		System.out.println("undo");
-		System.out.print("Player A Pits: ");
-		for (int i = 0; i < playerAPits.length; i++){
-			int pit = playerAPits[i];
-			System.out.print(pit+", ");
-		}
-		notifyListeners();
-		if (aturn==false){
-			setIsPlayerATurn(true);
-		}
-		else
-			setIsPlayerATurn(false);
 		
-		System.out.print("Player A Pits (after): ");
-		for (int i = 0; i < playerAPits.length; i++){
-			int pit = playerAPits[i];
-			System.out.print(pit+", ");
-		}
-		//PREVplayerAPits = playerAPits;
 	}
 }
