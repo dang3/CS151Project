@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -110,7 +111,6 @@ public class Model {
 	 * @param index Index of the pit that was clicked
 	 */
 	public void updateModel(int index) {
-		undoCount = 0;
 		// update the arrays here
 		if (index>=0 && index<=5) {
 			PREVplayerAPits[index] = playerAPits[index];
@@ -229,6 +229,10 @@ public class Model {
 
 
 	public void updateUndo() {
+		if(undoCount == 3)
+			return;
+		
+		
 		for (int i = 0; i < playerAPits.length; i++){
 			int pit = playerAPits[i];
 			System.out.print(pit+", ");
@@ -238,6 +242,10 @@ public class Model {
 //		System.out.println("playerAMancala: "+ playerAMancala);
 //		System.out.println("playerBMancala: "+ playerBMancala);
 
+		if(Arrays.equals(playerAPits, PREVplayerAPits))
+			System.out.println("\n\n\nequal\n\n\n\n");
+		
+		
 		playerAPits = PREVplayerAPits;
 		playerAMancala = PREVplayerAMancala;
 		playerBPits = PREVplayerBPits;
@@ -249,6 +257,7 @@ public class Model {
 //			System.out.print(pit+", ");
 //		}
 		notifyListeners();
+		undoCount++;
 		//PREVplayerAPits = playerAPits;
 	}
 
