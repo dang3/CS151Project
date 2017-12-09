@@ -11,13 +11,15 @@ public class Model {
 	private int playerBPits[] = new int[6];
 	private int playerAMancala;
 	private int playerBMancala;
-	private int initNumStones;
+	private int initNumStones;	
 
 	private int PREVplayerAPits[] = new int[6];
 	private int PREVplayerBPits[] = new int[6];
 	private int PREVplayerAMancala;
 	private int PREVplayerBMancala;
-
+	
+	private int undoCount;
+	
 	private int styleType;
 	private Style style;
 	Color cBoard;
@@ -36,7 +38,7 @@ public class Model {
 		playerAMancala = 0;
 		playerBMancala = 0;
 		listeners = new ArrayList<ChangeListener>();
-		//cBoard = Color.black;
+		undoCount = 0;
 	}
 		
 	public void setInitNumStones(int val) {
@@ -46,6 +48,14 @@ public class Model {
 			playerBPits[i] = initNumStones;
 		}
 		notifyListeners();
+	}
+	
+	public void setUndoCount(int c) {
+		undoCount = c;
+	}
+	
+	public int getUndoCount() {
+		return undoCount;
 	}
 
 	public void setStyle(int val){
@@ -70,7 +80,6 @@ public class Model {
 	public int getInitNumStones() {
 		return initNumStones;
 	}
-	
 	
 	public int[] getPlayerAPits() {
 		return playerAPits;
@@ -98,6 +107,7 @@ public class Model {
 	 * @param index Index of the pit that was clicked
 	 */
 	public void updateModel(int index) {
+		undoCount = 0;
 		// update the arrays here
 		if (index>=0 && index<=5) {
 			PREVplayerAPits[index] = playerAPits[index];
@@ -213,6 +223,8 @@ public class Model {
 		playerAMancala = PREVplayerAMancala;
 		playerBPits = PREVplayerBPits;
 		playerBMancala = PREVplayerBMancala;
+		undoCount++;
+		notifyListeners();
 	}
 
 }
