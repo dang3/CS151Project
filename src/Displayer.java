@@ -57,6 +57,7 @@ public class Displayer extends JFrame implements ChangeListener {
 					model.updateUndo();
 			}
 		});
+		
 	}
 	
 	private void initComponents() {

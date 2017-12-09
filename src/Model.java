@@ -46,6 +46,8 @@ public class Model {
 		for (int i = 0; i<6;i++) {
 			playerAPits[i] = initNumStones;
 			playerBPits[i] = initNumStones;
+			PREVplayerAPits[i] = initNumStones;
+			PREVplayerBPits[i] = initNumStones;
 		}
 		notifyListeners();
 	}
@@ -61,13 +63,14 @@ public class Model {
 	public void setStyle(int val){
 		styleType = val;
 		if (val == 1){
-			style = new MancalaStyle();
+			style = new MancalaStyle1();
 		}
 		else if (val == 2){
-			style = new MancalaStyle1();
+			style = new MancalaStyle2();
 		}
 		cBoard = style.colorOfBoard();
 		cPocket = style.colorOfPockets();
+
 		notifyListeners();
 	}
 	public Color getBoardColor(){
@@ -77,17 +80,17 @@ public class Model {
 		return cPocket;
 	}
 
-	public int getInitNumStones() {
-		return initNumStones;
-	}
-	
-	public int[] getPlayerAPits() {
-		return playerAPits;
-	}
-	
-	public int[] getPlayerBPits() {
-		return playerBPits;
-	}
+//	public int getInitNumStones() {
+//		return initNumStones;
+//	}
+//	
+//	public int[] getPlayerAPits() {
+//		return playerAPits;
+//	}
+//	
+//	public int[] getPlayerBPits() {
+//		return playerBPits;
+//	}
 	
 	public int getPlayerAMancala(){
 		return playerAMancala;
@@ -166,6 +169,8 @@ public class Model {
 	
 	public void sideBIntoB() {
 		for (int i = 7; i<=12; i++) {
+			PREVplayerBMancala = playerBMancala;
+			PREVplayerBPits = playerBPits;
 			playerBMancala = playerBMancala + getStoneNumber(i);
 			playerBPits[i-7] =0;
 		}
@@ -183,9 +188,11 @@ public class Model {
 	
 	public void toZero(int index) {
 		if (index<6) {
+			PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index] = 0;
 		}
 		else {
+			PREVplayerBPits[index-7] = playerBPits[index-7];
 			playerBPits[index-7] = 0;
 		}
 		notifyListeners();
@@ -193,16 +200,19 @@ public class Model {
 	
 	public void mancalaNewValue(boolean isA, int value) {
 		if (isA) {
+			PREVplayerAMancala = playerAMancala;
 			playerAMancala = value;
 			
 		}
 		else {
+			PREVplayerBMancala = playerBMancala;
 			playerBMancala = value;
 		}
 		notifyListeners();
 	}
 	
 	public void notifyListeners() {
+		System.out.println("listeners: " + listeners.size());
 		for(ChangeListener listener : listeners) {
 			listener.stateChanged( new ChangeEvent(this) );
 		}
@@ -219,12 +229,27 @@ public class Model {
 
 
 	public void updateUndo() {
+		for (int i = 0; i < playerAPits.length; i++){
+			int pit = playerAPits[i];
+			System.out.print(pit+", ");
+		}
+//		System.out.println("playerAPits: "+ playerAPits);
+//		System.out.println("playerBPits: "+ playerBPits);
+//		System.out.println("playerAMancala: "+ playerAMancala);
+//		System.out.println("playerBMancala: "+ playerBMancala);
+
 		playerAPits = PREVplayerAPits;
 		playerAMancala = PREVplayerAMancala;
 		playerBPits = PREVplayerBPits;
 		playerBMancala = PREVplayerBMancala;
-		undoCount++;
+		//System.out.println("undo");
+//		System.out.print("Player A Pits: ");
+//		for (int i = 0; i < playerAPits.length; i++){
+//			int pit = playerAPits[i];
+//			System.out.print(pit+", ");
+//		}
 		notifyListeners();
+		//PREVplayerAPits = playerAPits;
 	}
 
 }
