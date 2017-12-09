@@ -27,6 +27,7 @@ public class Model {
 	private int PREVplayerBMancala;
 	
 	private int undoCount;
+	private int lastZeroIndex;
 	
 	private Style style;
 	Color cBoard;
@@ -44,6 +45,7 @@ public class Model {
 		playerBMancala = 0;
 		listeners = new ArrayList<ChangeListener>();
 		undoCount = 0;
+		lastZeroIndex=-1;
 	}
 	
 	/**
@@ -55,8 +57,8 @@ public class Model {
 		for (int i = 0; i<6;i++) {
 			playerAPits[i] = initNumStones;
 			playerBPits[i] = initNumStones;
-			PREVplayerAPits[i] = playerAPits[i];
-			PREVplayerBPits[i] = playerBPits[i];
+			PREVplayerAPits[i] = initNumStones;
+			PREVplayerBPits[i] = initNumStones;
 		}
 		notifyListeners();
 	}
@@ -247,6 +249,16 @@ public class Model {
 	 * @param index index of pocket
 	 */
 	public void toZero(int index) {
+		//for undo method
+		if(lastZeroIndex>0) {
+			if (lastZeroIndex<6) {
+				PREVplayerAPits[lastZeroIndex] = 0;
+			}
+			else {
+				PREVplayerBPits[lastZeroIndex] = 0;
+			}
+		}
+		
 		if (index<6) {
 			PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index] = 0;
@@ -255,6 +267,7 @@ public class Model {
 			PREVplayerBPits[index-7] = playerBPits[index-7];
 			playerBPits[index-7] = 0;
 		}
+		lastZeroIndex = index;
 		notifyListeners();
 	}
 	
