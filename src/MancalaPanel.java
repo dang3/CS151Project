@@ -1,13 +1,18 @@
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
@@ -48,6 +53,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		setSize(600,180);
 		cBoard = model.getBoardColor();
 		cPocket = model.getPocketColor();
+		//winner();
 	}
 
 	/**
@@ -85,7 +91,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		
 	}
 	
-	
 	/**
 	 * Controller Class that takes in information
 	 * 
@@ -96,6 +101,11 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		 * when mouse is pressed, game is played
 		 */
 		public void mousePressed(MouseEvent event) {
+			//BEFORE ANYTHING IS DONE, SAVE PREV STATE
+			model.setprevAManc(model.getPlayerAMancala());
+			model.setprevBManc(model.getPlayerBMancala());
+			model.updateModel(-1);
+			model.setPREVisPlayerATurn(model.getIsPlayerATurn());
 			//System.out.println("mousePressed");
 			Point mousePoint = event.getPoint();
 			Pocket pocket = null;
@@ -156,13 +166,16 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							//free turn
 							//keep status the same for isPlayerA and in undo methods later
 							//update and 
+							//model.updateModel(nextPitIndex, true);
 							model.setIsPlayerATurn(!model.getIsPlayerATurn()); //change player turn back to a
-							if (model.getUndoCount() > 0){ //if undo has been used
-								//model.setIsPlayerATurn(model.getIsPlayerATurn());//change so it gets changed back to A at the end
-								System.out.println("change back to a");
-							}
+								//System.out.println("change back to a");
+							//}
 							System.out.println("Player A, Take another turn. ");
 						}
+//						else{
+//							model.updateModel(nextPitIndex, false);
+//
+//						}
 					}
 					else { //skip because player B
 						stoneNumber=stoneNumber+1; //add stone back to counter?
@@ -175,13 +188,17 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 //						model.setMancalaBChange(true); //undo
 						if (stoneNumber==1) { //last stone
 							//free turn case again
+							//model.updateModel(nextPitIndex, true);
 							model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
-							if (model.getUndoCount() > 0){ //if undo has been used
-								model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
-								System.out.println("change back to b");
-							}
+							//if (model.getUndoCount() > 0){ //if undo has been used
+								//model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
+							//	System.out.println("change back to b");
+							//}
 							System.out.println("Player B, Take another turn. ");
 						}
+//						else {
+//							model.updateModel(nextPitIndex, false);
+//						}
 					}
 					else { //skip
 						stoneNumber=stoneNumber+1;
@@ -205,7 +222,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							value = value + 1 + model.getPlayerBMancala();
 							model.mancalaNewValue(false, value);
 						}
-						else {
+						else{
 							model.updateModel(nextPitIndex);
 						}
 					}
@@ -214,7 +231,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					}
 					nextPitIndex++;
 				}
-				
 			}
 			//model.toZero(index);//set chosen pit to zero stones
 			
@@ -230,12 +246,16 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				model.sideAIntoA();
 				//print end of game
 				//System.exit(0); //end
-				winner();
 			}		
 			
 			//change player at end
 			//isPlayerA = !isPlayerA;
+
 			model.setIsPlayerATurn( !model.getIsPlayerATurn() );
+			System.out.println("playerATurn: " + model.getIsPlayerATurn());
+			System.out.println("PREVplayerATurn: " + model.getPREVisPlayerATurn());
+			
+		
 		}
 	}
 
@@ -243,19 +263,45 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	 * indicates the winner, player a or b
 	 */
 	private void winner(){
+		JFrame winnerPopUp = new JFrame();
+		winnerPopUp.setSize(300,150);
+		winnerPopUp.setLocationRelativeTo(null);
+		winnerPopUp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel winnerPanel = new JPanel();
+		JLabel winnerLabel = new JLabel();
+		winnerLabel.setFont(new Font("Arial", Font.BOLD, 25));
+		winnerLabel.setForeground(Color.RED);
+		JButton okButton = new JButton("Ok");
+		winnerPanel.setLayout(null);
+		winnerPopUp.add(winnerPanel);
+		winnerPanel.add(winnerLabel);
+		winnerPanel.add(okButton);
+		
+	
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
 		int AMancala = model.getPlayerAMancala();
 		int BMancala = model.getPlayerBMancala(); 
 		System.out.println("A: " + AMancala);
 		System.out.println("B: " + BMancala);
 		if (AMancala>BMancala) {
-			System.out.println("Player A is the winner. ");
+			winnerLabel.setText("Player A wins!!!!!");
 		}
 		else if (AMancala<BMancala) {
-			System.out.println("Player B is the winner. ");
+			winnerLabel.setText("Player B wins!!!!!");
 		}
 		else { //tie
-			System.out.println("There is a tie! Both players win!");
+			winnerLabel.setText("Nobody wins!!!!!");
 		}
+		
+		winnerLabel.setBounds( (winnerPopUp.getWidth() - winnerLabel.getPreferredSize().width)/2 , winnerPopUp.getHeight()/7, winnerLabel.getPreferredSize().width, winnerLabel.getPreferredSize().height);
+		okButton.setBounds( (winnerPopUp.getWidth() - okButton.getPreferredSize().width)/2, 3*winnerPopUp.getHeight()/7, okButton.getPreferredSize().width, okButton.getPreferredSize().height );
+		winnerPopUp.setVisible(true);
 	}
 	
 	@Override

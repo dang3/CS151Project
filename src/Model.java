@@ -2,6 +2,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -15,16 +16,16 @@ import javax.swing.event.ChangeListener;
 
 public class Model {
 
-	private int playerAPits[] = new int[6];
-	private int playerBPits[] = new int[6];
-	private int playerAMancala;
-	private int playerBMancala;
+	public int playerAPits[] = new int[6];
+	public int playerBPits[] = new int[6];
+	public int playerAMancala;
+	public int playerBMancala;
 	private int initNumStones;	
 
-	private int PREVplayerAPits[] = new int[6];
-	private int PREVplayerBPits[] = new int[6];
-	private int PREVplayerAMancala;
-	private int PREVplayerBMancala;
+	public int PREVplayerAPits[] = new int[6];
+	public int PREVplayerBPits[] = new int[6];
+	public int PREVplayerAMancala;
+	public int PREVplayerBMancala;
 	
 	private int undoCount;
 	private int lastZeroIndex;
@@ -32,13 +33,20 @@ public class Model {
 //	private boolean mancalaBChangeTrue;
 	
 	private Style style;
-	Color cBoard;
-	Color cPocket;
+	private Color cBoard;
+	private Color cPocket;
 	private boolean isPlayerATurn = true;
+	private boolean PREVisPlayerATurn = false;
 	
-
 	private ArrayList<ChangeListener> listeners;
 	
+	public void setPREVisPlayerATurn(boolean b) {
+		PREVisPlayerATurn = b;
+	}
+	
+	public boolean getPREVisPlayerATurn() {
+		return PREVisPlayerATurn;
+	}
 	/**
 	 * Constructs model, initiates ArrayList s and listeners
 	 */
@@ -47,8 +55,9 @@ public class Model {
 		playerBMancala = 0;
 		listeners = new ArrayList<ChangeListener>();
 		undoCount = 0;
-		lastZeroIndex=-1;
+		lastZeroIndex =-1;
 	}
+	
 	
 	/**
 	 * initializes the number of stones in the game (3 or 4)
@@ -150,29 +159,45 @@ public class Model {
 	/**
 	 *  this method is called by the controller to update the arrays
 	 * @param index Index of the pit that was clicked
+	 * @param last used for undo, if this is last stone. usually false. true if last stone
 	 */
 	public void updateModel(int index) {
 		// update the arrays here
 		if (index>=0 && index<=5) {
-			PREVplayerAPits[index] = playerAPits[index];
+			//PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index]++;
 		}
 		else if (index==6) {
-			PREVplayerAMancala = playerAMancala;
+			//PREVplayerAMancala = playerAMancala;
 			playerAMancala++;
 		}
 		else if (index>=7 && index<=12) {
-			PREVplayerBPits[index-7] = playerBPits[index-7];
+			//PREVplayerBPits[index-7] = playerBPits[index-7];
 			playerBPits[index-7]++;
 		}
-		else {//index==13
-			PREVplayerBMancala = playerBMancala;
+		else if (index == 13){//index==13
+			//PREVplayerBMancala = playerBMancala;
 			playerBMancala++;
 		}
-		
+		System.out.print("Player A Pits (AFTER UPDATE: ");
+		for (int i = 0; i < playerAPits.length; i++){
+			int pit = playerAPits[i];
+			System.out.print(pit+", ");
+		}
+		System.out.println();
+		//save second to last one
+		//so if not last one, save.
+		if (index == -1){ //last is false, do if not last one
+			setprevAPits(playerAPits);
+			setprevBPits(playerBPits);
+			System.out.println("saved pits");
+		}
+		//System.arraycopy(playerAPits, 0, PREVplayerAPits, 0, PREVplayerAPits.length);
 		// let the views know about the change so that they update
 		notifyListeners();
 	}
+	
+
 	
 	//for easy access to indices
 	public int getStoneNumber(int index) {
@@ -211,8 +236,8 @@ public class Model {
 	 */
 	public void sideAIntoA() {
 		for (int i = 0; i<=5; i++) {
-			PREVplayerAMancala = playerAMancala;
-			PREVplayerAPits = playerAPits;
+			//PREVplayerAMancala = playerAMancala;
+			//PREVplayerAPits = playerAPits;
 			playerAMancala = playerAMancala + getStoneNumber(i);
 			playerAPits[i] = 0;
 		}
@@ -224,8 +249,8 @@ public class Model {
 	 */
 	public void sideBIntoB() {
 		for (int i = 7; i<=12; i++) {
-			PREVplayerBMancala = playerBMancala;
-			PREVplayerBPits = playerBPits;
+			//PREVplayerBMancala = playerBMancala;
+			//PREVplayerBPits = playerBPits;
 			playerBMancala = playerBMancala + getStoneNumber(i);
 			playerBPits[i-7] =0;
 		}
@@ -251,7 +276,6 @@ public class Model {
 	 * @param index index of pocket
 	 */
 	public void toZero(int index) {
-		//for undo method
 		if(lastZeroIndex>0) {
 			if (lastZeroIndex<6) {
 				PREVplayerAPits[lastZeroIndex] = 0;
@@ -262,11 +286,11 @@ public class Model {
 		}
 		
 		if (index<6) {
-			PREVplayerAPits[index] = playerAPits[index];
+			//PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index] = 0;
 		}
 		else {
-			PREVplayerBPits[index-7] = playerBPits[index-7];
+			//PREVplayerBPits[index-7] = playerBPits[index-7];
 			playerBPits[index-7] = 0;
 		}
 		lastZeroIndex = index;
@@ -279,12 +303,14 @@ public class Model {
 	 * @param value number of stones to put into mancala
 	 */
 	public void mancalaNewValue(boolean isA, int value) {
+		//PREVplayerAMancala = playerAMancala;
+		//PREVplayerBMancala = playerBMancala;
 		if (isA) {
-			PREVplayerAMancala = playerAMancala;
+			//PREVplayerAMancala = playerAMancala;
 			playerAMancala = value;	
 		}
 		else {
-			PREVplayerBMancala = playerBMancala;
+			//PREVplayerBMancala = playerBMancala;
 			playerBMancala = value;
 		}
 		notifyListeners();
@@ -316,6 +342,34 @@ public class Model {
 		return isPlayerATurn;
 	}
 
+	public int[] getAPits(){
+		return playerAPits;
+	}
+	public int[] getBPits(){
+		return playerBPits;
+	}
+	
+	public void setprevAPits(int[] pitsa){
+		//PREVplayerAPits = pits;
+		System.arraycopy(pitsa, 0, PREVplayerAPits, 0, PREVplayerAPits.length);
+		//System.arraycopy(PREVplayerAPits, 0, pitsa, 0, pitsa.length);;
+
+	}
+	public void setprevAManc(int manc){
+		PREVplayerAMancala = manc;
+	}
+	public void setprevBPits(int[] pitsb){
+		//PREVplayerBPits = pits;
+		//System.arraycopy(PREVplayerBPits, 0, pitsb, 0, pitsb.length);;
+		System.arraycopy(pitsb, 0, PREVplayerBPits, 0, PREVplayerBPits.length);
+	}
+	public void setprevBManc(int manc){
+		PREVplayerBMancala = manc;
+	}
+	
+	
+	
+	
 	/**
 	 * notifies program when undo button is pressed
 	 */
@@ -328,74 +382,63 @@ public class Model {
 			System.out.print(pit+", ");
 		}
 		System.out.println();
+		System.out.println("playerAMancala: "+ playerAMancala);
 		System.out.print("Player B Pits (before): ");
 		for (int i = 0; i < playerBPits.length; i++){
 			int pit = playerBPits[i];
 			System.out.print(pit+", ");
 		}
 		System.out.println();
+		System.out.println("playerBMancala: "+ playerBMancala);
+
 		//System.out.println("playerAPits: "+ playerAPits);
 		//System.out.println("playerBPits: "+ playerBPits);
 		//System.out.println("playerAMancala: "+ playerAMancala);
 		//System.out.println("playerBMancala: "+ playerBMancala);
 
-//		System.out.println("playerAPits: "+ playerAPits);
-//		System.out.println("playerBPits: "+ playerBPits);
-//		System.out.println("playerAMancala: "+ playerAMancala);
-//		System.out.println("playerBMancala: "+ playerBMancala);
+//		if(Arrays.equals(playerAPits, PREVplayerAPits))
+//			System.out.println("\n\n\nequal\n\n\n\n");
+		
 
-		if(Arrays.equals(playerAPits, PREVplayerAPits))
-			System.out.println("\n\n\nequal\n\n\n\n");
-		
-		
-		playerAPits = PREVplayerAPits;
-		
 //		if (mancalaAChangeTrue) {
-			playerAMancala = PREVplayerAMancala;
+//			playerAMancala = PREVplayerAMancala;
 //		}
-		
-		playerBPits = PREVplayerBPits;
-		
+
 //		if (mancalaBChangeTrue) {
-			playerBMancala = PREVplayerBMancala;
+//			playerBMancala = PREVplayerBMancala;
 //		}
+
 		
+		//restore pits to previous
+		playerAMancala = PREVplayerAMancala;
+		playerBMancala = PREVplayerBMancala;
+		System.arraycopy(PREVplayerAPits, 0, playerAPits, 0, playerAPits.length);
+		System.arraycopy(PREVplayerBPits, 0, playerBPits, 0, playerBPits.length);
+		isPlayerATurn = PREVisPlayerATurn;
 		
-		System.out.print("Player A Pits: ");
-		for (int i = 0; i < playerAPits.length; i++){
-			int pit = playerAPits[i];
-			System.out.print(pit+", ");
-		}
-		notifyListeners(); //a's turn again
-		System.out.println();
-		if (aturn){
-			System.out.println("still a's turn");
-			setIsPlayerATurn(true); //if it was a's turn, keep it a's turn
-			System.out.println("undocount: "+ undoCount);
-		}
-		else {
-			setIsPlayerATurn(false);
-			undoCount = 0;
-			setUndoCount(0);
-			System.out.println("set undo count to zero");
-		}
-		//listeners.get(1).stateChanged(new ChangeEvent(this));
+		//PREVplayerAPits = playerAPits;
+		//PREVplayerAMancala = playerAMancala;
+		//PREVplayerBPits = playerBPits;
+		//PREVplayerBMancala = playerBMancala;
+		
+
 		System.out.print("Player A Pits (after): ");
+
 		for (int i = 0; i < playerAPits.length; i++){
 			int pit = playerAPits[i];
 			System.out.print(pit+", ");
 		}
-		//PREVplayerAPits = playerAPits;
-		//System.out.println("undo");
-//		System.out.print("Player A Pits: ");
-//		for (int i = 0; i < playerAPits.length; i++){
-//			int pit = playerAPits[i];
-//			System.out.print(pit+", ");
-//		}
+		System.out.print("Player B Pits (after): ");
+		for (int i = 0; i < playerBPits.length; i++){
+			int pit = playerAPits[i];
+			System.out.print(pit+", ");
+		}
+		System.out.println();
 		notifyListeners();
-		undoCount++;
-		//PREVplayerAPits = playerAPits;
+		//System.out.println("undocount: "+ undoCount);
+		//once turn ends, reset undocount
 	}
+
 	
 //	public void setMancalaAChange(boolean boo) {
 //		mancalaAChangeTrue = boo;
@@ -405,3 +448,6 @@ public class Model {
 //		mancalaBChangeTrue = boo;
 //	}
 }
+
+
+

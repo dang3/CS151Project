@@ -1,11 +1,18 @@
-<<<<<<< HEAD
-/MancalaStyle2.class
-/MancalaStyle1.class
-=======
-/MancalaStyle.class
-/MancalaStyle1.class
-/Style.class
-/MancalaTester.class
 /Displayer$1.class
->>>>>>> 09aeea1b75d4bd17a9942c87ae47e01ad09ee88a
+/Displayer.class
+/MancalaPanel$Listener.class
+/MancalaPanel.class
+/MancalaStyle1.class
+/MancalaStyle2.class
 /MancalaTest.class
+<<<<<<< HEAD
+/Model.class
+/MouseAdapter.class
+/PlayerBox.class
+/Pocket.class
+/StartMenu$1.class
+/StartMenu.class
+/Style.class
+=======
+/MancalaPanel$1.class
+>>>>>>> edae3e3a491e2b1d8c20a3d8033b2faf73c61ba9
