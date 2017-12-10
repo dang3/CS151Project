@@ -85,7 +85,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		
 	}
 	
-	
 	/**
 	 * Controller Class that takes in information
 	 * 
@@ -96,6 +95,13 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		 * when mouse is pressed, game is played
 		 */
 		public void mousePressed(MouseEvent event) {
+			//BEFORE ANYTHING IS DONE, SAVE PREV STATE
+			model.setprevAManc(model.getPlayerAMancala());
+			model.setprevBManc(model.getPlayerBMancala());
+			model.updateModel(-1);
+			//model.setprevAPits(model.getAPits());
+			//model.setprevAPits(model.getBPits());
+			model.setPREVisPlayerATurn(model.getIsPlayerATurn());
 			//System.out.println("mousePressed");
 			Point mousePoint = event.getPoint();
 			Pocket pocket = null;
@@ -154,13 +160,18 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							//free turn
 							//keep status the same for isPlayerA and in undo methods later
 							//update and 
+							//model.updateModel(nextPitIndex, true);
 							model.setIsPlayerATurn(!model.getIsPlayerATurn()); //change player turn back to a
-							if (model.getUndoCount() > 0){ //if undo has been used
-								//model.setIsPlayerATurn(model.getIsPlayerATurn());//change so it gets changed back to A at the end
-								System.out.println("change back to a");
-							}
+							//if (model.getUndoCount() > 0){ //if undo has been used
+								//model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
+								//System.out.println("change back to a");
+							//}
 							System.out.println("Player A, Take another turn. ");
 						}
+//						else{
+//							model.updateModel(nextPitIndex, false);
+//
+//						}
 					}
 					else { //skip because player B
 						stoneNumber=stoneNumber+1; //add stone back to counter?
@@ -172,13 +183,17 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 						model.updateModel(nextPitIndex);
 						if (stoneNumber==1) { //last stone
 							//free turn case again
+							//model.updateModel(nextPitIndex, true);
 							model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
-							if (model.getUndoCount() > 0){ //if undo has been used
-								model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
-								System.out.println("change back to b");
-							}
+//							if (model.getUndoCount() > 0){ //if undo has been used
+//								model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
+//								System.out.println("change back to b");
+//							}
 							System.out.println("Player B, Take another turn. ");
 						}
+//						else {
+//							model.updateModel(nextPitIndex, false);
+//						}
 					}
 					else { //skip
 						stoneNumber=stoneNumber+1;
@@ -202,7 +217,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							value = value + 1 + model.getPlayerBMancala();
 							model.mancalaNewValue(false, value);
 						}
-						else {
+						else{
 							model.updateModel(nextPitIndex);
 						}
 					}
