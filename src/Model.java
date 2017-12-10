@@ -263,7 +263,7 @@ public class Model {
 				PREVplayerAPits[lastZeroIndex] = 0;
 			}
 			else {
-				PREVplayerBPits[lastZeroIndex] = 0;
+				PREVplayerBPits[lastZeroIndex-7] = 0;
 			}
 		}
 		

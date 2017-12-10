@@ -161,10 +161,10 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							//keep status the same for isPlayerA and in undo methods later
 							//update and 
 							model.setIsPlayerATurn(!model.getIsPlayerATurn()); //change player turn back to a
-							if (model.getUndoCount() > 0){ //if undo has been used
+							//if (model.getUndoCount() > 0){ //if undo has been used
 								//model.setIsPlayerATurn(model.getIsPlayerATurn());//change so it gets changed back to A at the end
-								System.out.println("change back to a");
-							}
+								//System.out.println("change back to a");
+							//}
 							System.out.println("Player A, Take another turn. ");
 						}
 					}
@@ -179,10 +179,10 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 						if (stoneNumber==1) { //last stone
 							//free turn case again
 							model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
-							if (model.getUndoCount() > 0){ //if undo has been used
-								model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
-								System.out.println("change back to b");
-							}
+							//if (model.getUndoCount() > 0){ //if undo has been used
+								//model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
+							//	System.out.println("change back to b");
+							//}
 							System.out.println("Player B, Take another turn. ");
 						}
 					}
