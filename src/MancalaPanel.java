@@ -150,14 +150,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				return;//keep same player
 			}
 			
-			model.setprevAManc();
-			model.setprevBManc();
-			model.setprevAPits();
-			model.setprevBPits();
-			model.setPREVisPlayerATurn(model.getIsPlayerATurn());
 			
+			model.savePrevState();
 			model.toZero(index);//set chosen pit to zero stones
-			
 
 			for (; stoneNumber>0; stoneNumber-- ) {//get method for stoneNumber in that pit?
 				
@@ -254,10 +249,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			
 			//change player at end
 			model.setIsPlayerATurn( !model.getIsPlayerATurn() );
-			System.out.println("playerATurn: " + model.getIsPlayerATurn());
-			System.out.println("PREVplayerATurn: " + model.getPREVisPlayerATurn());
-			
-		
 		}
 	}
 
@@ -266,6 +257,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	 */
 	private void winner(){
 		JFrame winnerPopUp = new JFrame();
+		winnerPopUp.setTitle("Game Over");
 		winnerPopUp.setSize(300,150);
 		winnerPopUp.setLocationRelativeTo(null);
 		winnerPopUp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -280,7 +272,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		winnerPanel.add(winnerLabel);
 		winnerPanel.add(okButton);
 		
-	
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -289,8 +280,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		
 		int AMancala = model.getPlayerAMancala();
 		int BMancala = model.getPlayerBMancala(); 
-		System.out.println("A: " + AMancala);
-		System.out.println("B: " + BMancala);
 		if (AMancala>BMancala) {
 			winnerLabel.setText("Player A wins!!!!!");
 		}
@@ -308,8 +297,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		// Mancala gameBoard reads from the Model how many seeds per pocket,
-		// then the View redraws
+		// Mancala gameBoard reads from the Model how many seeds per pocket, then the View redraws
 		cBoard = model.getBoardColor();
 		cPocket = model.getPocketColor();
 		for (int i = 0; i<14; i++) {
@@ -317,7 +305,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				Pocket p = pocketList.get(i);
 				p.setNumStones(stonesNum);
 		}
-		//revalidate();
-		repaint(); //? does this work
+		repaint();
 	}
 }

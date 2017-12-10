@@ -60,7 +60,6 @@ public class Pocket {
 		outline = new Ellipse2D.Double(xPos, yPos, sizeX, sizeY); // draw outline of pocket
 		color = c;
 		g2.setColor(c);
-		//g2.fill(outline);
 		g2.draw(outline);
 		g2.setColor(stoneColor());
 		drawStones(g2);
@@ -71,8 +70,7 @@ public class Pocket {
 	 */
 	private void drawStones(Graphics2D g2) {
 		// draw number of stones in each pocket
-		
-		//color = Color.green;
+
 		int xCount = 0;
 		int yCount = 0;
 		for (int i = 0; i < numStones; i++) {
