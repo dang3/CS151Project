@@ -273,6 +273,10 @@ public class Model {
 	public boolean getIsPlayerATurn() {
 		return isPlayerATurn;
 	}
+	
+	public boolean getPREVisPlayerATurn() {
+		return PREVisPlayerATurn;
+	}
 
 	public int[] getAPits(){
 		return playerAPits;
@@ -293,13 +297,16 @@ public class Model {
 	 * notifies program when undo button is pressed
 	 */
 	public void updateUndo() {
-		undoCount++;
-		//restore pits to previous
-		playerAMancala = PREVplayerAMancala;
-		playerBMancala = PREVplayerBMancala;
-		System.arraycopy(PREVplayerAPits, 0, playerAPits, 0, playerAPits.length);
-		System.arraycopy(PREVplayerBPits, 0, playerBPits, 0, playerBPits.length);
-		isPlayerATurn = PREVisPlayerATurn;
-		notifyListeners();
+		if (undoCount < 3) {
+			// restore pits to previous
+			playerAMancala = PREVplayerAMancala;
+			playerBMancala = PREVplayerBMancala;
+			System.arraycopy(PREVplayerAPits, 0, playerAPits, 0, playerAPits.length);
+			System.arraycopy(PREVplayerBPits, 0, playerBPits, 0, playerBPits.length);
+			isPlayerATurn = PREVisPlayerATurn;
+
+			undoCount++;
+			notifyListeners();
+		}
 	}
 }
