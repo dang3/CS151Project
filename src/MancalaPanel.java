@@ -54,7 +54,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	}
 
 	/**
-	 * 
+	 * tells how to paint panel
 	 */
 	public void paintComponent(Graphics g) {
 		//System.out.println("actualboard: " + cBoard);
@@ -95,9 +95,14 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		 * when mouse is pressed, game is played
 		 */
 		public void mousePressed(MouseEvent event) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7a5d6d99e59c7aa0fb0774b724c2c804b0c79075
 			if (model.getPREVisPlayerATurn() != model.getIsPlayerATurn()){
 				model.setUndoCount(0);
 			}
+
 			Point mousePoint = event.getPoint();
 			Pocket pocket = null;
 			
@@ -119,33 +124,28 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			if (model.getIsPlayerATurn()) {
 				if (index>5) {
 					System.out.println("You are Player A, please choose pits on your side. ");
-					return;//exit the method? want to skip actual update part
-					//make sure doesn't mess up undo method
+					return; 
 				}
 			}
 			else{
 				if (index<7 || index>12){
 					System.out.println("You are Player B, please choose pits on your side. ");
-					return;//exit the method
+					return;
 				}
 			}
 			
-			
-			//for loop until #of stones runs out
-			int nextPitIndex = index + 1;
 			int stoneNumber = model.getStoneNumber(index);
-			
-			
 			if (stoneNumber==0) {
 				System.out.println("Please pick a pit with stones inside. ");
-				return;//keep same player
+				return;
 			}
-			
 			
 			model.savePrevState();
 			model.toZero(index);//set chosen pit to zero stones
-
-			for (; stoneNumber>0; stoneNumber-- ) {//get method for stoneNumber in that pit?
+			int nextPitIndex = index + 1;
+			
+			//for loop until #of stones runs out
+			for (; stoneNumber>0; stoneNumber-- ) {
 				
 				if (nextPitIndex==14) { //back to beginning of loop
 					nextPitIndex=0;
@@ -155,15 +155,18 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					if (model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
 						if (stoneNumber==1) { //last stone
+<<<<<<< HEAD
 							//free turn
 							//keep status the same for isPlayerA and in undo methods later
 							//update and 
+=======
+>>>>>>> 7a5d6d99e59c7aa0fb0774b724c2c804b0c79075
 							model.setIsPlayerATurn(!model.getIsPlayerATurn()); //change player turn back to a
 							System.out.println("Player A, Take another turn. ");
 						}
 					}
 					else { //skip because player B
-						stoneNumber=stoneNumber+1; //add stone back to counter?
+						stoneNumber=stoneNumber+1; 
 					}
 					nextPitIndex++;
 				}
@@ -171,7 +174,10 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					if (!model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
 						if (stoneNumber==1) { //last stone
+<<<<<<< HEAD
 							//free turn case again
+=======
+>>>>>>> 7a5d6d99e59c7aa0fb0774b724c2c804b0c79075
 							model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
 							System.out.println("Player B, Take another turn. ");
 						}
@@ -183,7 +189,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				}
 				else {
 					if ((stoneNumber==1)&& (model.getStoneNumber(nextPitIndex)==0)){ //last stone and empty pit
-						//dont updateModel yet, check special case
 						int across = 12-nextPitIndex;
 						int value;
 						if (model.getIsPlayerATurn() && model.isSideA(nextPitIndex)) { //if a's turn and index is on a's side
