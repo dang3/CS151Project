@@ -146,8 +146,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					if (model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
 						if (stoneNumber==1) { //last stone
-							//free turn keep status the same for isPlayerA and in undo methods later
-							//update and 
+							//free turn keep status the same for isPlayerA and in undo methods later update and 
 							model.setIsPlayerATurn(!model.getIsPlayerATurn()); //change player turn back to a
 							System.out.println("Player A, Take another turn. ");
 						}
@@ -160,8 +159,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				else if (nextPitIndex==13) {
 					if (!model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
-						if (stoneNumber==1) { //last stone
-							//free turn case again
+						if (stoneNumber==1) { //last stone free turn case again
 							model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
 							System.out.println("Player B, Take another turn. ");
 						}
