@@ -51,6 +51,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 
 	/**
 	 * tells how to paint panel
+	 * @param g Graphics
 	 */
 	public void paintComponent(Graphics g) {
 		border = new LineBorder(cBoard, 3);
@@ -256,7 +257,10 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		winnerPopUp.setVisible(true);
 	}
 	
-	@Override
+	/**
+	 * repaints when model changes
+	 * @param e ChangeEvent
+	 */
 	public void stateChanged(ChangeEvent e) {
 		// Mancala gameBoard reads from the Model how many seeds per pocket, then the View redraws
 		cBoard = model.getBoardColor();
