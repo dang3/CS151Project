@@ -16,28 +16,25 @@ import javax.swing.event.ChangeListener;
 
 public class Model {
 
-	private int playerAPits[] = new int[6];
-	private int playerBPits[] = new int[6];
-	private int playerAMancala;
-	private int playerBMancala;
+	public int playerAPits[] = new int[6];
+	public int playerBPits[] = new int[6];
+	public int playerAMancala;
+	public int playerBMancala;
 	private int initNumStones;	
 
-	private int PREVplayerAPits[] = new int[6];
-	private int PREVplayerBPits[] = new int[6];
-	private int PREVplayerAMancala;
-	private int PREVplayerBMancala;
+	public int PREVplayerAPits[] = new int[6];
+	public int PREVplayerBPits[] = new int[6];
+	public int PREVplayerAMancala;
+	public int PREVplayerBMancala;
 	
 	private int undoCount;
 	private int lastZeroIndex;
 	
 	private Style style;
-	Color cBoard;
-	Color cPocket;
+	private Color cBoard;
+	private Color cPocket;
 	private boolean isPlayerATurn = true;
 	private boolean PREVisPlayerATurn = false;
-	
-	LinkedList<int[]> board;
-	
 	
 	private ArrayList<ChangeListener> listeners;
 	
@@ -57,7 +54,6 @@ public class Model {
 		listeners = new ArrayList<ChangeListener>();
 		undoCount = 0;
 		lastZeroIndex =-1;
-		board = new LinkedList<>();
 	}
 	
 	
@@ -70,8 +66,8 @@ public class Model {
 		for (int i = 0; i<6;i++) {
 			playerAPits[i] = initNumStones;
 			playerBPits[i] = initNumStones;
-			PREVplayerAPits[i] = playerAPits[i];
-			PREVplayerBPits[i] = playerBPits[i];
+			PREVplayerAPits[i] = initNumStones;
+			PREVplayerBPits[i] = initNumStones;
 		}
 		notifyListeners();
 	}
@@ -199,6 +195,8 @@ public class Model {
 		notifyListeners();
 	}
 	
+
+	
 	//for easy access to indices
 	public int getStoneNumber(int index) {
 		if (index>=0 && index<=5) {
@@ -276,17 +274,15 @@ public class Model {
 	 * @param index index of pocket
 	 */
 	public void toZero(int index) {
-
-//		//for undo method
-//			if(lastZeroIndex>0) {
-//		 		if (lastZeroIndex<6) {
-//					PREVplayerAPits[lastZeroIndex] = 0;
-//		 	}
-//		 	else {
-//		 		PREVplayerBPits[lastZeroIndex-7] = 0;
-//		 	}
-//		}
-		 //undo method
+		if(lastZeroIndex>0) {
+			if (lastZeroIndex<6) {
+				PREVplayerAPits[lastZeroIndex] = 0;
+			}
+			else {
+				PREVplayerBPits[lastZeroIndex-7] = 0;
+			}
+		}
+		
 		if (index<6) {
 			//PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index] = 0;
@@ -414,60 +410,19 @@ public class Model {
 		//PREVplayerBMancala = playerBMancala;
 		
 
-		System.out.print("Player A Pits (after switching): ");
+		System.out.print("Player A Pits (after): ");
 		for (int i = 0; i < playerAPits.length; i++){
 			int pit = playerAPits[i];
 			System.out.print(pit+", ");
 		}
-		System.out.print("Player B Pits (after switching): ");
+		System.out.print("Player B Pits (after): ");
 		for (int i = 0; i < playerBPits.length; i++){
 			int pit = playerAPits[i];
 			System.out.print(pit+", ");
 		}
-		notifyListeners(); //a's turn again
 		System.out.println();
-		System.out.println("undocount: "+ undoCount);
+		notifyListeners();
+		//System.out.println("undocount: "+ undoCount);
 		//once turn ends, reset undocount
-//		if (aturn){
-//			if (undoCount > 0){
-//				System.out.println("still a's turn");
-//				setIsPlayerATurn(true);
-//			}
-//			else{
-//			setIsPlayerATurn(false);
-//			}
-//			setIsPlayerATurn(false);
-//		}
-//		else {
-//			if (undoCount >0){
-//				System.out.println("still b's turn");
-//				setIsPlayerATurn(false);
-//			}
-//			else{
-//			setIsPlayerATurn(true);
-//			undoCount = 0;
-//			setUndoCount(0);
-//			System.out.println("set undo count to zero");
-//			}
-//			setIsPlayerATurn(true);
-//		}
-		//listeners.get(1).stateChanged(new ChangeEvent(this));
-//		System.out.print("PREVPlayer A Pits (after notifying): ");
-//		for (int i = 0; i < PREVplayerAPits.length; i++){
-//			int pit = playerAPits[i];
-//			System.out.print(pit+", ");
-//		}
-//		System.out.println();
-//		System.out.println("PREVplayerAMancala: "+ playerAMancala);
-//		System.out.print("Player B Pits (after notifying): ");
-//		for (int i = 0; i < PREVplayerBPits.length; i++){
-//			int pit = playerBPits[i];
-//			System.out.print(pit+", ")
-//		}
-//		System.out.println();
-//		System.out.println("playerBMancala: "+ playerBMancala +"\n -------------------");
-		//notifyListeners();
-		//undoCount++;
-		//PREVplayerAPits = playerAPits;
 	}
 }

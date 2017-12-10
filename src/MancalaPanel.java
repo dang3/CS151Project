@@ -1,13 +1,18 @@
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
@@ -48,6 +53,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		setSize(600,180);
 		cBoard = model.getBoardColor();
 		cPocket = model.getPocketColor();
+		//winner();
 	}
 
 	/**
@@ -99,8 +105,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			model.setprevAManc(model.getPlayerAMancala());
 			model.setprevBManc(model.getPlayerBMancala());
 			model.updateModel(-1);
-			//model.setprevAPits(model.getAPits());
-			//model.setprevAPits(model.getBPits());
 			model.setPREVisPlayerATurn(model.getIsPlayerATurn());
 			//System.out.println("mousePressed");
 			Point mousePoint = event.getPoint();
@@ -142,7 +146,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			
 			model.toZero(index);//set chosen pit to zero stones
 			
-			//System.out.println(stoneNumber);
 			if (stoneNumber==0) {
 				System.out.println("Please pick a pit with stones inside. ");
 				return;//keep same player
@@ -162,8 +165,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							//update and 
 							//model.updateModel(nextPitIndex, true);
 							model.setIsPlayerATurn(!model.getIsPlayerATurn()); //change player turn back to a
-							//if (model.getUndoCount() > 0){ //if undo has been used
-								//model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
 								//System.out.println("change back to a");
 							//}
 							System.out.println("Player A, Take another turn. ");
@@ -185,10 +186,10 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 							//free turn case again
 							//model.updateModel(nextPitIndex, true);
 							model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
-//							if (model.getUndoCount() > 0){ //if undo has been used
-//								model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
-//								System.out.println("change back to b");
-//							}
+							//if (model.getUndoCount() > 0){ //if undo has been used
+								//model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
+							//	System.out.println("change back to b");
+							//}
 							System.out.println("Player B, Take another turn. ");
 						}
 //						else {
@@ -226,7 +227,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					}
 					nextPitIndex++;
 				}
-				
 			}
 			//model.toZero(index);//set chosen pit to zero stones
 			
@@ -242,12 +242,16 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				model.sideAIntoA();
 				//print end of game
 				//System.exit(0); //end
-				winner();
 			}		
 			
 			//change player at end
 			//isPlayerA = !isPlayerA;
+
 			model.setIsPlayerATurn( !model.getIsPlayerATurn() );
+			System.out.println("playerATurn: " + model.getIsPlayerATurn());
+			System.out.println("PREVplayerATurn: " + model.getPREVisPlayerATurn());
+			
+		
 		}
 	}
 
@@ -255,19 +259,45 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 	 * indicates the winner, player a or b
 	 */
 	private void winner(){
+		JFrame winnerPopUp = new JFrame();
+		winnerPopUp.setSize(300,150);
+		winnerPopUp.setLocationRelativeTo(null);
+		winnerPopUp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel winnerPanel = new JPanel();
+		JLabel winnerLabel = new JLabel();
+		winnerLabel.setFont(new Font("Arial", Font.BOLD, 25));
+		winnerLabel.setForeground(Color.RED);
+		JButton okButton = new JButton("Ok");
+		winnerPanel.setLayout(null);
+		winnerPopUp.add(winnerPanel);
+		winnerPanel.add(winnerLabel);
+		winnerPanel.add(okButton);
+		
+	
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
 		int AMancala = model.getPlayerAMancala();
 		int BMancala = model.getPlayerBMancala(); 
 		System.out.println("A: " + AMancala);
 		System.out.println("B: " + BMancala);
 		if (AMancala>BMancala) {
-			System.out.println("Player A is the winner. ");
+			winnerLabel.setText("Player A wins!!!!!");
 		}
 		else if (AMancala<BMancala) {
-			System.out.println("Player B is the winner. ");
+			winnerLabel.setText("Player B wins!!!!!");
 		}
 		else { //tie
-			System.out.println("There is a tie! Both players win!");
+			winnerLabel.setText("Nobody wins!!!!!");
 		}
+		
+		winnerLabel.setBounds( (winnerPopUp.getWidth() - winnerLabel.getPreferredSize().width)/2 , winnerPopUp.getHeight()/7, winnerLabel.getPreferredSize().width, winnerLabel.getPreferredSize().height);
+		okButton.setBounds( (winnerPopUp.getWidth() - okButton.getPreferredSize().width)/2, 3*winnerPopUp.getHeight()/7, okButton.getPreferredSize().width, okButton.getPreferredSize().height );
+		winnerPopUp.setVisible(true);
 	}
 	
 	@Override
