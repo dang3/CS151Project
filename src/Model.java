@@ -28,9 +28,6 @@ public class Model {
 	public int PREVplayerBMancala;
 	
 	private int undoCount;
-	private int lastZeroIndex;
-//	private boolean mancalaAChangeTrue;
-//	private boolean mancalaBChangeTrue;
 	
 	private Style style;
 	private Color cBoard;
@@ -55,7 +52,6 @@ public class Model {
 		playerBMancala = 0;
 		listeners = new ArrayList<ChangeListener>();
 		undoCount = 0;
-		lastZeroIndex =-1;
 	}
 	
 	
@@ -187,11 +183,11 @@ public class Model {
 		System.out.println();
 		//save second to last one
 		//so if not last one, save.
-		if (index == -1){ //last is false, do if not last one
-			setprevAPits(playerAPits);
-			setprevBPits(playerBPits);
-			System.out.println("saved pits");
-		}
+//		if (index == -1){ //last is false, do if not last one
+//			setprevAPits(playerAPits);
+//			setprevBPits(playerBPits);
+//			System.out.println("saved pits");
+//		}
 		//System.arraycopy(playerAPits, 0, PREVplayerAPits, 0, PREVplayerAPits.length);
 		// let the views know about the change so that they update
 		notifyListeners();
@@ -275,16 +271,7 @@ public class Model {
 	 * sets pocket's stones to zero
 	 * @param index index of pocket
 	 */
-	public void toZero(int index) {
-		if(lastZeroIndex>0) {
-			if (lastZeroIndex<6) {
-				PREVplayerAPits[lastZeroIndex] = 0;
-			}
-			else {
-				PREVplayerBPits[lastZeroIndex-7] = 0;
-			}
-		}
-		
+	public void toZero(int index) {		
 		if (index<6) {
 			//PREVplayerAPits[index] = playerAPits[index];
 			playerAPits[index] = 0;
@@ -293,7 +280,6 @@ public class Model {
 			//PREVplayerBPits[index-7] = playerBPits[index-7];
 			playerBPits[index-7] = 0;
 		}
-		lastZeroIndex = index;
 		notifyListeners();
 	}
 	
@@ -349,24 +335,37 @@ public class Model {
 		return playerBPits;
 	}
 	
-	public void setprevAPits(int[] pitsa){
-		//PREVplayerAPits = pits;
-		System.arraycopy(pitsa, 0, PREVplayerAPits, 0, PREVplayerAPits.length);
-		//System.arraycopy(PREVplayerAPits, 0, pitsa, 0, pitsa.length);;
-
-	}
-	public void setprevAManc(int manc){
-		PREVplayerAMancala = manc;
-	}
-	public void setprevBPits(int[] pitsb){
-		//PREVplayerBPits = pits;
-		//System.arraycopy(PREVplayerBPits, 0, pitsb, 0, pitsb.length);;
-		System.arraycopy(pitsb, 0, PREVplayerBPits, 0, PREVplayerBPits.length);
-	}
-	public void setprevBManc(int manc){
-		PREVplayerBMancala = manc;
-	}
+//	public void setprevAPits(int[] pitsa){
+//		//PREVplayerAPits = pits;
+//		System.arraycopy(pitsa, 0, PREVplayerAPits, 0, PREVplayerAPits.length);
+//		//System.arraycopy(PREVplayerAPits, 0, pitsa, 0, pitsa.length);;
+//
+//	}
+//	public void setprevAManc(int manc){
+//		PREVplayerAMancala = manc;
+//	}
+//	public void setprevBPits(int[] pitsb){
+//		//PREVplayerBPits = pits;
+//		//System.arraycopy(PREVplayerBPits, 0, pitsb, 0, pitsb.length);;
+//		System.arraycopy(pitsb, 0, PREVplayerBPits, 0, PREVplayerBPits.length);
+//	}
+//	public void setprevBManc(int manc){
+//		PREVplayerBMancala = manc;
+//	}
 	
+	public void setprevAPits(){
+		System.arraycopy(playerAPits , 0, PREVplayerAPits, 0, PREVplayerAPits.length);
+		
+	}
+	public void setprevAManc(){
+		PREVplayerAMancala = playerAMancala;
+	}
+	public void setprevBPits(){
+		System.arraycopy(playerBPits, 0, PREVplayerBPits, 0, PREVplayerBPits.length);
+	}
+	public void setprevBManc(){
+		PREVplayerBMancala = playerBMancala;
+	}
 	
 	
 	
@@ -439,14 +438,6 @@ public class Model {
 		//once turn ends, reset undocount
 	}
 
-	
-//	public void setMancalaAChange(boolean boo) {
-//		mancalaAChangeTrue = boo;
-//	}
-//	
-//	public void setMancalaBChange(boolean boo) {
-//		mancalaBChangeTrue = boo;
-//	}
 }
 
 

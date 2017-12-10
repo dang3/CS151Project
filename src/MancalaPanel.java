@@ -101,11 +101,11 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 		 * when mouse is pressed, game is played
 		 */
 		public void mousePressed(MouseEvent event) {
-			//BEFORE ANYTHING IS DONE, SAVE PREV STATE
-			model.setprevAManc(model.getPlayerAMancala());
-			model.setprevBManc(model.getPlayerBMancala());
-			model.updateModel(-1);
-			model.setPREVisPlayerATurn(model.getIsPlayerATurn());
+//			//BEFORE ANYTHING IS DONE, SAVE PREV STATE
+//			model.setprevAManc(model.getPlayerAMancala());
+//			model.setprevBManc(model.getPlayerBMancala());
+//			model.updateModel(-1);
+//			model.setPREVisPlayerATurn(model.getIsPlayerATurn());
 			//System.out.println("mousePressed");
 			Point mousePoint = event.getPoint();
 			Pocket pocket = null;
@@ -144,14 +144,21 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			int nextPitIndex = index + 1;
 			int stoneNumber = model.getStoneNumber(index);
 			
-			model.toZero(index);//set chosen pit to zero stones
 			
 			if (stoneNumber==0) {
 				System.out.println("Please pick a pit with stones inside. ");
 				return;//keep same player
 			}
-//			model.setMancalaAChange(false);
-//			model.setMancalaBChange(false);
+			
+			model.setprevAManc();
+			model.setprevBManc();
+			model.setprevAPits();
+			model.setprevBPits();
+			model.setPREVisPlayerATurn(model.getIsPlayerATurn());
+			
+			model.toZero(index);//set chosen pit to zero stones
+			
+
 			for (; stoneNumber>0; stoneNumber-- ) {//get method for stoneNumber in that pit?
 				
 				if (nextPitIndex==14) { //back to beginning of loop
@@ -161,7 +168,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				else if(nextPitIndex==6){ 
 					if (model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
-//						model.setMancalaAChange(true); //for undo
 						if (stoneNumber==1) { //last stone
 							//free turn
 							//keep status the same for isPlayerA and in undo methods later
@@ -185,7 +191,6 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				else if (nextPitIndex==13) {
 					if (!model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
-//						model.setMancalaBChange(true); //undo
 						if (stoneNumber==1) { //last stone
 							//free turn case again
 							//model.updateModel(nextPitIndex, true);
@@ -232,25 +237,22 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 					nextPitIndex++;
 				}
 			}
-			//model.toZero(index);//set chosen pit to zero stones
 			
 			//check if all pits on a side are empty 
 			if (model.sideAEmpty())  {
 				model.sideBIntoB();
 				//print end of game
-				//pop up window of winner?
-				//System.exit(0); //end
+				//pop up window of winner
 				winner();
 			}
 			else if (model.sideBEmpty()) {
 				model.sideAIntoA();
 				//print end of game
-				//System.exit(0); //end
+				//pop up window of winner
+				winner();
 			}		
 			
 			//change player at end
-			//isPlayerA = !isPlayerA;
-
 			model.setIsPlayerATurn( !model.getIsPlayerATurn() );
 			System.out.println("playerATurn: " + model.getIsPlayerATurn());
 			System.out.println("PREVplayerATurn: " + model.getPREVisPlayerATurn());
