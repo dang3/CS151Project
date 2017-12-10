@@ -57,7 +57,7 @@ public class PlayerBox extends JPanel {
 	}
 	
 	/**
-	 * initilaizes the components of the box (string)
+	 * initializes the components of the box (string)
 	 * @param str string to be put into the box
 	 */
 	private void initComponents(String str) {

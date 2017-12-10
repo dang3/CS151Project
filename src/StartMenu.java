@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Start Menu diolog of game
+ * Start Menu of game
  * Dennis Dang, Vera Wong, Marissa Xiong
  * Ver 1.1
  * 12/9/2017

@@ -1,8 +1,5 @@
-
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -135,7 +132,6 @@ public class Model {
 	/**
 	 *  this method is called by the controller to update the arrays
 	 * @param index Index of the pit that was clicked
-	 * @param last used for undo, if this is last stone. usually false. true if last stone
 	 */
 	public void updateModel(int index) {
 		// update the arrays here
@@ -267,20 +263,24 @@ public class Model {
 	}
 	
 	/**
-	 * returns who's turn it is
+	 * returns true if it is player a's turn
 	 * @return true if it is player a's turn, false if it is b's
 	 */
 	public boolean getIsPlayerATurn() {
 		return isPlayerATurn;
 	}
 
-	public int[] getAPits(){
-		return playerAPits;
-	}
-	public int[] getBPits(){
-		return playerBPits;
+	/**
+	 * returns true if the previous turn was player a's
+	 * @return true if previous player was a, false if it was b
+	 */
+	public boolean getPREVisPlayerATurn() {
+		return PREVisPlayerATurn;
 	}
 
+	/**
+	 * saves the previous state of the mancala (for undo)
+	 */
 	public void savePrevState() {
 		PREVplayerAMancala = playerAMancala;
 		PREVplayerBMancala = playerBMancala;
@@ -305,4 +305,5 @@ public class Model {
 			notifyListeners();
 		}
 	}
+
 }
