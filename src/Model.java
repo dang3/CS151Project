@@ -297,7 +297,7 @@ public class Model {
 	 * notifies program when undo button is pressed
 	 */
 	public void updateUndo() {
-		if (undoCount < 3) {
+		if (undoCount < 2) {
 			// restore pits to previous
 			playerAMancala = PREVplayerAMancala;
 			playerBMancala = PREVplayerBMancala;
