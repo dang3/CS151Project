@@ -270,10 +270,6 @@ public class Model {
 		return isPlayerATurn;
 	}
 	
-	public boolean getPREVisPlayerATurn() {
-		return PREVisPlayerATurn;
-	}
-
 	/**
 	 * returns true if the previous turn was player a's
 	 * @return true if previous player was a, false if it was b

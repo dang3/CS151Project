@@ -4,6 +4,6 @@ public class MancalaTest {
 	 * @param args not used
 	 */
 	public static void main(String[] args) {
-	Displayer frame = new Displayer();
+		Displayer frame = new Displayer();
 	}
 }

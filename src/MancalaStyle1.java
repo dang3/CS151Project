@@ -14,7 +14,6 @@ public class MancalaStyle1 implements Style {
 	 */
 	public Color colorOfBoard(){
 		Color c = Color.orange;
-		
 		return c;
 	}
 	/**
@@ -23,7 +22,6 @@ public class MancalaStyle1 implements Style {
 	 */
 	public Color colorOfPockets() {
 		Color c = Color.magenta;
-		
 		return c;
 	}
 }
