@@ -240,6 +240,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 			model.setIsPlayerATurn( !model.getIsPlayerATurn() );
 			System.out.println("playerATurn: " + model.getIsPlayerATurn());
 			System.out.println("PREVplayerATurn: " + model.getPREVisPlayerATurn());
+			
+		
 		}
 	}
 

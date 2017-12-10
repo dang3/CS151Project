@@ -15,16 +15,16 @@ import javax.swing.event.ChangeListener;
 
 public class Model {
 
-	private int playerAPits[] = new int[6];
-	private int playerBPits[] = new int[6];
-	private int playerAMancala;
-	private int playerBMancala;
+	public int playerAPits[] = new int[6];
+	public int playerBPits[] = new int[6];
+	public int playerAMancala;
+	public int playerBMancala;
 	private int initNumStones;	
 
-	private int PREVplayerAPits[] = new int[6];
-	private int PREVplayerBPits[] = new int[6];
-	private int PREVplayerAMancala;
-	private int PREVplayerBMancala;
+	public int PREVplayerAPits[] = new int[6];
+	public int PREVplayerBPits[] = new int[6];
+	public int PREVplayerAMancala;
+	public int PREVplayerBMancala;
 	
 	private int undoCount;
 	private int lastZeroIndex;
@@ -180,6 +180,8 @@ public class Model {
 		notifyListeners();
 	}
 	
+
+	
 	//for easy access to indices
 	public int getStoneNumber(int index) {
 		if (index>=0 && index<=5) {
@@ -328,18 +330,19 @@ public class Model {
 	public void updateUndo() {
 		undoCount++;
 		boolean aturn = getIsPlayerATurn();
-		System.out.print("Player A Pits (before): ");
-		for (int i = 0; i < playerAPits.length; i++){
-			int pit = playerAPits[i];
-			System.out.print(pit+", ");
-		}
-		System.out.println();
 		System.out.print("Player B Pits (before): ");
 		for (int i = 0; i < playerBPits.length; i++){
 			int pit = playerBPits[i];
 			System.out.print(pit+", ");
 		}
 		System.out.println();
+		System.out.print("Player A Pits (before): ");
+		for (int i = 0; i < playerAPits.length; i++){
+			int pit = playerAPits[i];
+			System.out.print(pit+", ");
+		}
+		System.out.println();
+
 		//System.out.println("playerAPits: "+ playerAPits);
 		//System.out.println("playerBPits: "+ playerBPits);
 		//System.out.println("playerAMancala: "+ playerAMancala);
@@ -353,13 +356,33 @@ public class Model {
 		//if(Arrays.equals(playerAPits, PREVplayerAPits))
 		//	System.out.println("\n\n\nequal\n\n\n\n");
 		
-
 		
-		playerAPits = PREVplayerAPits;
 		playerAMancala = PREVplayerAMancala;
-		playerBPits = PREVplayerBPits;
 		playerBMancala = PREVplayerBMancala;
+		System.arraycopy(PREVplayerAPits, 0, playerAPits, 0, playerAPits.length);
+		System.arraycopy(PREVplayerBPits, 0, playerBPits, 0, playerBPits.length);
 		isPlayerATurn = PREVisPlayerATurn;
+
+		System.out.print("Player B Pits (after): ");
+		for (int i = 0; i < playerBPits.length; i++){
+			int pit = playerBPits[i];
+			System.out.print(pit+", ");
+		}
+		System.out.println();
+		System.out.print("Player A Pits (after): ");
+		for (int i = 0; i < playerAPits.length; i++){
+			int pit = playerAPits[i];
+			System.out.print(pit+", ");
+		}
+		System.out.println();
+		
+		notifyListeners();
+		
+//		playerAPits = PREVplayerAPits;
+//		playerAMancala = PREVplayerAMancala;
+//		playerBPits = PREVplayerBPits;
+//		playerBMancala = PREVplayerBMancala;
+
 
 //		System.out.print("Player A Pits: ");
 //		for (int i = 0; i < playerAPits.length; i++){
@@ -392,7 +415,7 @@ public class Model {
 //			int pit = playerAPits[i];
 //			System.out.print(pit+", ");
 //		}
-		notifyListeners();
+
 		//PREVplayerAPits = playerAPits;
 	}
 }
