@@ -33,8 +33,6 @@ public class Displayer extends JFrame implements ChangeListener {
 		model.attach(mancalaPanel);
 		model.attach(this);
 		playerA.startTurn();
-		
-
 	}
 	
 	/**

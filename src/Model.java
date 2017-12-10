@@ -30,12 +30,20 @@ public class Model {
 	private int lastZeroIndex;
 	
 	private Style style;
-	Color cBoard;
-	Color cPocket;
+	private Color cBoard;
+	private Color cPocket;
 	private boolean isPlayerATurn = true;
+	private boolean PREVisPlayerATurn = false;
 	
-
 	private ArrayList<ChangeListener> listeners;
+	
+	public void setPREVisPlayerATurn(boolean b) {
+		PREVisPlayerATurn = b;
+	}
+	
+	public boolean getPREVisPlayerATurn() {
+		return PREVisPlayerATurn;
+	}
 	
 	/**
 	 * Constructs model, initiates ArrayList s and listeners
@@ -342,39 +350,41 @@ public class Model {
 //		System.out.println("playerAMancala: "+ playerAMancala);
 //		System.out.println("playerBMancala: "+ playerBMancala);
 
-		if(Arrays.equals(playerAPits, PREVplayerAPits))
-			System.out.println("\n\n\nequal\n\n\n\n");
+		//if(Arrays.equals(playerAPits, PREVplayerAPits))
+		//	System.out.println("\n\n\nequal\n\n\n\n");
 		
+
 		
 		playerAPits = PREVplayerAPits;
 		playerAMancala = PREVplayerAMancala;
 		playerBPits = PREVplayerBPits;
 		playerBMancala = PREVplayerBMancala;
+		isPlayerATurn = PREVisPlayerATurn;
 
-		System.out.print("Player A Pits: ");
-		for (int i = 0; i < playerAPits.length; i++){
-			int pit = playerAPits[i];
-			System.out.print(pit+", ");
-		}
-		notifyListeners(); //a's turn again
-		System.out.println();
-		if (aturn){
-			System.out.println("still a's turn");
-			setIsPlayerATurn(true); //if it was a's turn, keep it a's turn
-			System.out.println("undocount: "+ undoCount);
-		}
-		else {
-			setIsPlayerATurn(false);
-			undoCount = 0;
-			setUndoCount(0);
-			System.out.println("set undo count to zero");
-		}
-		//listeners.get(1).stateChanged(new ChangeEvent(this));
-		System.out.print("Player A Pits (after): ");
-		for (int i = 0; i < playerAPits.length; i++){
-			int pit = playerAPits[i];
-			System.out.print(pit+", ");
-		}
+//		System.out.print("Player A Pits: ");
+//		for (int i = 0; i < playerAPits.length; i++){
+//			int pit = playerAPits[i];
+//			System.out.print(pit+", ");
+//		}
+//		//notifyListeners(); //a's turn again
+//		System.out.println();
+//		if (aturn){
+//			System.out.println("still a's turn");
+//			setIsPlayerATurn(!aturn); //if it was a's turn, keep it a's turn
+//			System.out.println("undocount: "+ undoCount);
+//		}
+//		else {
+//			setIsPlayerATurn(!aturn);
+//			undoCount = 0;
+//			setUndoCount(0);
+//			System.out.println("set undo count to zero");
+//		}
+//		//listeners.get(1).stateChanged(new ChangeEvent(this));
+//		System.out.print("Player A Pits (after): ");
+//		for (int i = 0; i < playerAPits.length; i++){
+//			int pit = playerAPits[i];
+//			System.out.print(pit+", ");
+//		}
 		//PREVplayerAPits = playerAPits;
 		//System.out.println("undo");
 //		System.out.print("Player A Pits: ");
@@ -383,7 +393,6 @@ public class Model {
 //			System.out.print(pit+", ");
 //		}
 		notifyListeners();
-		undoCount++;
 		//PREVplayerAPits = playerAPits;
 	}
 }
