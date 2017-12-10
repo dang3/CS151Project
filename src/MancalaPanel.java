@@ -107,6 +107,9 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 //			model.updateModel(-1);
 //			model.setPREVisPlayerATurn(model.getIsPlayerATurn());
 			//System.out.println("mousePressed");
+			if (model.getPREVisPlayerATurn() != model.getIsPlayerATurn()){
+				model.setUndoCount(0);
+			}
 			Point mousePoint = event.getPoint();
 			Pocket pocket = null;
 			
