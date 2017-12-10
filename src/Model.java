@@ -28,6 +28,8 @@ public class Model {
 	
 	private int undoCount;
 	private int lastZeroIndex;
+//	private boolean mancalaAChangeTrue;
+//	private boolean mancalaBChangeTrue;
 	
 	private Style style;
 	Color cBoard;
@@ -347,10 +349,18 @@ public class Model {
 		
 		
 		playerAPits = PREVplayerAPits;
-		playerAMancala = PREVplayerAMancala;
+		
+//		if (mancalaAChangeTrue) {
+			playerAMancala = PREVplayerAMancala;
+//		}
+		
 		playerBPits = PREVplayerBPits;
-		playerBMancala = PREVplayerBMancala;
-
+		
+//		if (mancalaBChangeTrue) {
+			playerBMancala = PREVplayerBMancala;
+//		}
+		
+		
 		System.out.print("Player A Pits: ");
 		for (int i = 0; i < playerAPits.length; i++){
 			int pit = playerAPits[i];
@@ -386,4 +396,12 @@ public class Model {
 		undoCount++;
 		//PREVplayerAPits = playerAPits;
 	}
+	
+//	public void setMancalaAChange(boolean boo) {
+//		mancalaAChangeTrue = boo;
+//	}
+//	
+//	public void setMancalaBChange(boolean boo) {
+//		mancalaBChangeTrue = boo;
+//	}
 }

@@ -140,6 +140,8 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				System.out.println("Please pick a pit with stones inside. ");
 				return;//keep same player
 			}
+//			model.setMancalaAChange(false);
+//			model.setMancalaBChange(false);
 			for (; stoneNumber>0; stoneNumber-- ) {//get method for stoneNumber in that pit?
 				
 				if (nextPitIndex==14) { //back to beginning of loop
@@ -149,6 +151,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				else if(nextPitIndex==6){ 
 					if (model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
+//						model.setMancalaAChange(true); //for undo
 						if (stoneNumber==1) { //last stone
 							//free turn
 							//keep status the same for isPlayerA and in undo methods later
@@ -169,6 +172,7 @@ public class MancalaPanel extends JPanel implements ChangeListener {
 				else if (nextPitIndex==13) {
 					if (!model.getIsPlayerATurn()) {
 						model.updateModel(nextPitIndex);
+//						model.setMancalaBChange(true); //undo
 						if (stoneNumber==1) { //last stone
 							//free turn case again
 							model.setIsPlayerATurn(!model.getIsPlayerATurn());//change so it gets changed back to A at the end
